@@ -11,7 +11,7 @@ iM 아카데미 팀 프로젝트
 | 이름 | GitHub | 역할 |
 |---|---|---|
 | 양대천 | [@BigskyYang](https://github.com/BigskyYang) |  |
-|  |  |  |
+| 강우영 | [@2wooyeong2](https://github.com/2wooyeong2) |  |
 |  |  |  |
 |  |  |  |
 
