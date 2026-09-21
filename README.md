@@ -12,10 +12,9 @@ iM 아카데미 팀 프로젝트
 |---|---|---|
 | 양대천 | [@BigskyYang](https://github.com/BigskyYang) |  |
 | 김선주 | [@thunju](https://github.com/Thunju) |  |
+| 이태우 | [@leetaewoo-98](https://github.com/leetaewoo-98)  |  |
 | 강우영 | [@2wooyeong2](https://github.com/2wooyeong2) |  |
 | 황규현 | [@hkyuhyun](https://github.com/hkyuhyun) |  |
-|  |  |  |
-|  |  |  |
 
 ## 데이터 취급 원칙
 
