@@ -282,3 +282,5 @@ data/
 *.xlsx
 *.xls
 *.parquet
+# Word/Excel/PowerPoint 임시 잠금 파일 (문서를 열면 생성됨)
+~$*
