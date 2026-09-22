@@ -278,9 +278,6 @@ $RECYCLE.BIN/
 
 # 외부 반출 제한 자료 보호 — 원본 데이터는 레포 밖에 보관
 data/
-*.csv
-*.xlsx
-*.xls
 *.parquet
 # Word/Excel/PowerPoint 임시 잠금 파일 (문서를 열면 생성됨)
 ~$*
