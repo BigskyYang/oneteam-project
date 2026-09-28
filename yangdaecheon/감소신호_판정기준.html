@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>감소 신호 판정 기준</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --bg:#FAF9F5;--paper:#FFFFFF;--ink:#141413;--ink2:#3D3D3A;--muted:#87867F;--line:#D1CFC5;--soft:#F0EEE6;
+  --clay:#C8643F;--blue:#2F76B8;--olive:#5F7A45;--amber:#A87A12;--codebg:#F4F2EC;
+  --sans:"Pretendard",system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+    --clay:#E08A68;--blue:#5B9BD5;--olive:#9DB57F;--amber:#D9AE4A;--codebg:#2A2A28;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+  --clay:#E08A68;--blue:#5B9BD5;--olive:#9DB57F;--amber:#D9AE4A;--codebg:#2A2A28;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7}
+.wrap{max-width:960px;margin:0 auto;padding:36px 16px 80px}
+header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:24px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+h1{font-size:26px;line-height:1.3;margin-bottom:6px}
+.sub{color:var(--ink2)}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink)}
+h2{font-size:20px;margin:42px 0 8px;display:flex;gap:10px;align-items:baseline}
+h2 .n{font-family:var(--mono);font-size:12px;color:var(--clay);border:1.5px solid var(--clay);border-radius:6px;padding:0 7px}
+h3{font-size:16px;margin:20px 0 6px}
+p{margin-bottom:10px}
+.lead{color:var(--ink2);margin-bottom:14px}
+.answer{background:var(--paper);border:1.5px solid var(--line);border-left:6px solid var(--blue);border-radius:10px;padding:18px 20px;margin:8px 0 20px}
+.answer .big{font-size:19px;font-weight:700;margin-bottom:8px}
+.answer ul{padding-left:20px}
+.answer li{margin:4px 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);border-radius:10px;overflow:hidden;margin:16px 0}
+.kpi{background:var(--paper);padding:14px 10px;text-align:center}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1.2}
+.kpi .s{font-size:12px;color:var(--muted)}
+.note{font-size:13px;color:var(--ink2);background:var(--soft);border-radius:8px;padding:10px 14px;margin:10px 0}
+.warn{border-left:4px solid var(--amber)}
+.tag{display:inline-block;font-size:12px;padding:0 8px;border-radius:999px;white-space:nowrap;border:1px solid}
+.tag.a{color:var(--amber)}.tag.o{color:var(--olive)}.tag.c{color:var(--clay)}
+.tw{overflow-x:auto;margin:10px 0 14px}
+table{width:100%;border-collapse:collapse;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+th{background:var(--soft);text-align:left;padding:9px 12px;border-bottom:1.5px solid var(--line);white-space:nowrap;font-weight:700}
+td{padding:9px 12px;border-bottom:1px solid var(--soft);vertical-align:top}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+code{font-family:var(--mono);font-size:13px;background:var(--codebg);padding:1px 5px;border-radius:4px}
+pre{font-family:var(--mono);font-size:12.5px;line-height:1.6;background:var(--codebg);border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:10px 0 14px}
+.diagram{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px;margin:12px 0}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--sans)}
+.check{list-style:none}
+.check li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid var(--soft)}
+.check li::before{content:"☐";position:absolute;left:4px;top:9px;color:var(--clay);font-size:17px}
+footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-size:12px;color:var(--muted)}
+@media(max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">원팀 · 인계 문서 · 감소 신호 · 결과 판정 기준</div>
+  <h1>위험군·회복군을 나누는 기준과 대상 수</h1>
+  <p class="sub">"빈 행이 많아서 대상 기업이 너무 적다"는 보고에 대한 답과, 이전에 확정했던 판정 기준 전체</p>
+  <div class="meta">
+    <span>작성 <b>양대천 · 2026.09.28</b></span>
+    <span>근거 <b>output/06_signal_validation, 08_gap_sensitivity, 10_missing_mechanism</b></span>
+  </div>
+</header>
+
+<div class="answer">
+  <div class="big">이 기준대로 하면 대상은 5,997개 법인이다. 적지 않다.</div>
+  <ul>
+    <li>감소 신호가 한 번이라도 잡힌 법인이 <b>5,997개</b>이고, 이 중 비교 대상인 <b>회복 2,700 + 지속저조 2,959 = 5,659개</b>다.</li>
+    <li>기억하던 "약 8천 개"는 다른 숫자일 가능성이 크다. <b>8,335</b>는 2025년 하반기 6개월 연속 관측 코호트이고, <b>8,319</b>는 이미 기각된 인접 3개월 비교 방식의 신호 법인 수다.</li>
+    <li>수가 적게 나왔다면 <b>기준보다 관측 조건을 더 엄격하게 걸었을 가능성</b>이 크다. 5장 체크리스트로 확인하자.</li>
+  </ul>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="l">감소 신호 법인 (첫 신호)</div><div class="v">5,997</div><div class="s">16개월 탐지 합산</div></div>
+  <div class="kpi"><div class="l">회복</div><div class="v">2,700</div><div class="s">45.0%</div></div>
+  <div class="kpi"><div class="l">지속저조</div><div class="v">2,959</div><div class="s">49.3%</div></div>
+  <div class="kpi"><div class="l">이탈 → 관측중단</div><div class="v">338</div><div class="s">5.6% · 10단계로 재해석</div></div>
+</div>
+
+<!-- 1 -->
+<h2><span class="n">01</span>한눈에 보는 판정 흐름</h2>
+<p class="lead">한 법인을 기준월 <b>t</b>에서 본다. 올해 최근 3개월과 작년 같은 3개월을 비교하고, 이후 6개월을 지켜본다.</p>
+<div class="diagram">
+<svg viewBox="0 0 900 190" role="img" aria-label="감소 신호와 결과 판정 창 타임라인">
+  <g font-size="12">
+    <!-- 축 -->
+    <line x1="30" y1="110" x2="880" y2="110" stroke="var(--muted)" stroke-width="1.5"/>
+    <!-- 21칸: t-14 ... t+6 -->
+    <g id="ticks"></g>
+    <!-- before -->
+    <rect x="30" y="62" width="120" height="36" rx="6" fill="var(--blue)" opacity=".18" stroke="var(--blue)" stroke-width="1.5"/>
+    <text x="90" y="85" text-anchor="middle" fill="var(--ink)" font-weight="700">before</text>
+    <text x="90" y="48" text-anchor="middle" fill="var(--ink2)">작년 같은 3개월</text>
+    <text x="90" y="34" text-anchor="middle" fill="var(--muted)">t−14 ~ t−12</text>
+    <!-- middle -->
+    <rect x="150" y="62" width="360" height="36" rx="6" fill="none" stroke="var(--line)" stroke-dasharray="5 4"/>
+    <text x="330" y="85" text-anchor="middle" fill="var(--muted)">중간 9개월: 비어 있어도 됨</text>
+    <!-- after -->
+    <rect x="510" y="62" width="120" height="36" rx="6" fill="var(--clay)" opacity=".2" stroke="var(--clay)" stroke-width="1.5"/>
+    <text x="570" y="85" text-anchor="middle" fill="var(--ink)" font-weight="700">after</text>
+    <text x="570" y="48" text-anchor="middle" fill="var(--ink2)">최근 3개월</text>
+    <text x="570" y="34" text-anchor="middle" fill="var(--muted)">t−2 ~ t</text>
+    <!-- follow -->
+    <rect x="630" y="62" width="240" height="36" rx="6" fill="var(--olive)" opacity=".18" stroke="var(--olive)" stroke-width="1.5"/>
+    <text x="750" y="85" text-anchor="middle" fill="var(--ink)" font-weight="700">결과 추적</text>
+    <text x="750" y="48" text-anchor="middle" fill="var(--ink2)">회복했나, 계속 낮은가</text>
+    <text x="750" y="34" text-anchor="middle" fill="var(--muted)">t+1 ~ t+6</text>
+    <text x="30" y="132" fill="var(--muted)">t−14</text>
+    <text x="628" y="132" text-anchor="middle" fill="var(--ink)" font-weight="700">t</text>
+    <text x="870" y="132" text-anchor="end" fill="var(--muted)">t+6</text>
+    <text x="450" y="170" text-anchor="middle" fill="var(--ink2)">감소율 = (before − after) ÷ before ≥ 30%  →  감소 신호</text>
+  </g>
+</svg>
+</div>
+
+<!-- 2 -->
+<h2><span class="n">02</span>감소 신호 기준</h2>
+<div class="tw"><table>
+<tr><th>항목</th><th>기준</th><th>이유</th></tr>
+<tr><td><b>비교 지표</b></td><td>요구불입금금액 (백만원)</td><td>매출 대금이 들어오는 통로. 줄면 "우리 은행으로 오는 돈이 줄었다"</td></tr>
+<tr><td><b>after</b></td><td>t−2 ~ t 의 3개월 평균</td><td>반올림 이산값이라 한 달만 보면 튄다</td></tr>
+<tr><td><b>before</b></td><td>t−14 ~ t−12 의 3개월 평균 (<b>작년 같은 시기</b>)</td><td>바로 앞 3개월과 비교하면 12월 결산 효과로 3~5월에 가짜 감소가 1.65배 몰린다(6단계)</td></tr>
+<tr><td><b>관측 조건</b></td><td><b>before 3개월과 after 3개월만</b> 모두 관측되면 된다. 중간 t−11 ~ t−3 은 비어도 됨</td><td>전 기간 연속을 요구하면 대상이 크게 줄고 작은 법인이 빠진다</td></tr>
+<tr><td><b>규모 하한</b></td><td>before ≥ 10백만원</td><td>작은 값은 반올림 한 칸에 −100%가 된다</td></tr>
+<tr><td><b>감소 기준</b></td><td>(before − after) ÷ before ≥ 0.30</td><td>우영 님 기획서의 "YoY 변화율 ≤ −30%"와 같은 식</td></tr>
+<tr><td><b>탐지 기간</b></td><td>t = 2024.03 ~ 2025.06 (16개월)</td><td>앞은 작년 비교 구간이 필요하고, 뒤는 6개월 추적(t+6 ≤ 2025.12)이 필요</td></tr>
+<tr><td><b>법인당 1건</b></td><td>여러 달 신호가 잡혀도 <b>첫 신호 달</b> 하나만 쓴다</td><td>같은 법인이 여러 번 세어지는 것을 막는다</td></tr>
+</table></div>
+
+<!-- 3 -->
+<h2><span class="n">03</span>결과 판정 기준 (t 이후 6개월)</h2>
+<div class="tw"><table>
+<tr><th>순서</th><th>결과</th><th>조건</th></tr>
+<tr><td>1</td><td><b>이탈</b> <span class="tag a">→ '관측중단'으로 이름 변경 권고</span></td><td>마지막 관측 달이 t ~ t+3 안에 있고, 그 뒤로 데이터 끝(2025.12)까지 다시 나타나지 않음</td></tr>
+<tr><td>2</td><td><b>회복</b></td><td>t+1 ~ t+4 에서 시작하는 연속 3개월 중 하나라도, 3개월 모두 관측되고 평균이 <b>before 의 70% 이상</b></td></tr>
+<tr><td>3</td><td><b>지속저조</b></td><td>위 둘에 해당하지 않음</td></tr>
+</table></div>
+<div class="note warn"><b>'이탈' 338개는 이탈이라고 부를 근거가 없다.</b> 10단계 검증에서 "행이 없다 = 관계 종료"를 판정하지 못했다(사라진 법인의 97.5%가 대출을 안고 사라짐). 이 338개는 <b>관측중단(원인 불명)</b>으로 부르고 비교에서 빼는 것을 권한다. 중심 비교인 회복 vs 지속저조는 둘 다 관측이 이어진 법인이라 이 문제의 영향을 받지 않는다.</div>
+
+<!-- 4 -->
+<h2><span class="n">04</span>대상 수가 이렇게 나온다</h2>
+<p class="lead">한 달에 판정할 수 있는 법인은 5,500개 안팎이다. 그중 27~30%에서 감소 신호가 잡히고, 16개월치를 합쳐 법인별 첫 신호만 남긴다.</p>
+<div class="tw"><table>
+<tr><th>단계</th><th class="r">수</th><th>설명</th></tr>
+<tr><td>전체 법인</td><td class="r">15,473</td><td>36개월 중 한 번이라도 관측</td></tr>
+<tr><td>매달 판정 가능한 법인 (위험집합)</td><td class="r">5,447 ~ 5,794</td><td>before·after 창이 모두 관측되고 before ≥ 10백만원. 달마다 다름</td></tr>
+<tr><td>매달 감소 신호</td><td class="r">1,488 ~ 1,724</td><td>판정 가능 법인의 26.6~30.0%</td></tr>
+<tr><td>16개월 신호 합계 (법인·달 쌍)</td><td class="r">25,688</td><td>같은 법인이 여러 달 잡힘</td></tr>
+<tr><td><b>첫 신호만 남긴 법인</b></td><td class="r"><b>5,997</b></td><td>분석 대상</td></tr>
+<tr><td>→ 회복 / 지속저조 / 관측중단</td><td class="r">2,700 / 2,959 / 338</td><td>45.0% / 49.3% / 5.6%</td></tr>
+</table></div>
+
+<h3>빈 달 처리 방식을 바꾸면</h3>
+<p>before·after 창 안에 빈 달이 있을 때 어떻게 하느냐에 따라 대상 수가 달라진다. <b>세 방식 모두 결과 비율은 3.4%p 이내로 같다.</b></p>
+<div class="tw"><table>
+<tr><th>방식</th><th>창 안의 빈 달</th><th class="r">신호 법인</th><th class="r">회복</th><th class="r">지속저조</th><th class="r">관측중단</th></tr>
+<tr><td><b>exclude</b> (확정 기준)</td><td>3개월 모두 관측돼야 함</td><td class="r">5,997</td><td class="r">45.0%</td><td class="r">49.3%</td><td class="r">5.6%</td></tr>
+<tr><td><b>partial</b></td><td>3개월 중 2개월 이상이면 있는 달 평균</td><td class="r">6,762</td><td class="r">45.0%</td><td class="r">49.1%</td><td class="r">6.0%</td></tr>
+<tr><td>zerofill</td><td>빈 달을 0으로</td><td class="r">6,939</td><td class="r">48.3%</td><td class="r">46.0%</td><td class="r">5.7%</td></tr>
+</table></div>
+<div class="note"><b>partial 로 바꾸는 것을 검토하자</b> <span class="tag a">팀 결정</span><br>10단계에서 공백이 <b>매 분기말(3·6·9·12월)에 몰린다</b>는 걸 확인했다. 연속된 3개월에는 반드시 분기말이 한 달 끼어 있다. 그래서 "3개월 모두 관측"을 요구하면 분기말 공백 하나 때문에 창이 통째로 무효가 된다. partial 은 765개 법인을 되살리고 결과 비율은 거의 같다. zerofill 은 권하지 않는다. 짧은 공백은 평소 수준이 이어진 것이라 0으로 채우면 가짜 감소가 생긴다.</div>
+
+<!-- 5 -->
+<h2><span class="n">05</span>대상이 적게 나왔다면 확인할 것</h2>
+<p class="lead">위 기준보다 관측 조건을 더 엄격하게 걸면 수가 급격히 준다. 아래 중 하나일 가능성이 크다.</p>
+<ul class="check">
+  <li><b>36개월 전 기간 연속 관측을 요구했다</b><br><span style="font-size:13px;color:var(--ink2)">36개월 모두 관측된 법인은 3,372개(21.8%)뿐이다. 그 안에서만 찾으면 대상이 크게 줄고, 입금 규모가 큰 법인만 남는다(입금 중앙값 98 vs 빈 달 있는 법인 15~38백만원). → <b>before·after 두 창만 관측되면 된다.</b></span></li>
+  <li><b>중간 9개월(t−11 ~ t−3)까지 관측을 요구했다</b><br><span style="font-size:13px;color:var(--ink2)">중간 달은 계산에 쓰지 않는다. 요구할 이유가 없다.</span></li>
+  <li><b>기준월을 한 달만 봤다</b><br><span style="font-size:13px;color:var(--ink2)">한 달만 보면 신호는 약 1,500~1,700개다. 16개월을 모두 훑고 법인별 첫 신호를 남겨야 5,997개가 된다. (앞서 제안했던 "공통 기준월 하나" 방식도 이 경우에 해당한다. 대상 수가 필요하면 16개월 합산을 쓴다.)</span></li>
+  <li><b>빈 달을 0으로 채운 뒤 '0이 아닌 달' 조건을 걸었다</b><br><span style="font-size:13px;color:var(--ink2)">빈 달은 NaN(모름)으로 둔다. 0 은 "거래가 없었다"는 뜻이라 다르다.</span></li>
+  <li><b>8,335 코호트 안에서만 찾았다</b><br><span style="font-size:13px;color:var(--ink2)">8,335는 "2025.07~12 연속 관측" 법인으로, 코호트 특성을 볼 때 쓴 다른 모집단이다. 신호 탐지는 전체 15,473개에서 한다.</span></li>
+  <li><b>금액을 float32로 읽었다</b><br><span style="font-size:13px;color:var(--ink2)">감소율이 정확히 0.30인 경우가 흔해서 마지막 비트 차이로 판정이 뒤집힌다. float64로 읽는다.</span></li>
+</ul>
+
+<!-- 6 -->
+<h2><span class="n">06</span>코드로 옮기면</h2>
+<p class="lead">원본 구현은 <code>code/eda_signal_validation.py</code> 의 <code>yoy_records_and_events()</code> 와 <code>classify_outcome()</code>. 빈 달 처리 방식별 구현은 <code>code/eda_gap_sensitivity.py</code> 에 있다.</p>
+<pre># pres   : (법인수, 36) bool  — 그 달 행이 있으면 True
+# demand : (법인수, 36) float64 — 요구불입금금액, 행이 없는 달은 NaN (0 아님)
+# 월 인덱스 0 = 2023.01, 35 = 2025.12
+
+def window_mean(demand, pres, lo, hi, mode="exclude"):
+    """lo~hi-1 구간 평균. exclude: 3개월 모두 관측, partial: 2개월 이상"""
+    n_obs = pres[:, lo:hi].sum(axis=1)
+    need  = 3 if mode == "exclude" else 2
+    m = np.nanmean(demand[:, lo:hi], axis=1)
+    return np.where(n_obs &gt;= need, m, np.nan)
+
+last_pos = 35 - np.argmax(pres[:, ::-1], axis=1)      # 법인별 마지막 관측 달
+events = []
+for t in range(14, 30):                                 # 2024.03(14) ~ 2025.06(29)
+    before = window_mean(demand, pres, t - 14, t - 11)  # t-14 ~ t-12
+    after  = window_mean(demand, pres, t - 2,  t + 1)   # t-2  ~ t
+    rate   = (before - after) / before
+    signal = np.isfinite(rate) &amp; (before &gt;= 10) &amp; (rate &gt;= 0.30)
+    for c in np.where(signal)[0]:
+        events.append((c, t, before[c]))
+
+def outcome(c, t, before):
+    if t &lt;= last_pos[c] &lt;= t + 3:                  # 사라지고 끝까지 안 돌아옴
+        return "관측중단"
+    for s in range(t + 1, t + 5):                   # t+1 ~ t+4 에서 시작하는 3개월
+        if pres[c, s:s + 3].all() and np.nanmean(demand[c, s:s + 3]) &gt;= 0.7 * before:
+            return "회복"
+    return "지속저조"
+
+# 법인별 첫 신호만: events 를 (법인, t) 로 정렬 후 법인별 첫 행</pre>
+<div class="note">회복 판정 창은 확정 기준에서 "3개월 모두 관측"이다. 이 조건 때문에 회복 창 4개가 전부 무효가 되는 법인이 138개(2.4%) 있다. 이 중 45개는 실제로 before 의 70% 이상인 달이 있었다. partial 로 바꾸면 이 수가 8개로 준다.</div>
+
+<!-- 7 -->
+<h2><span class="n">07</span>함께 지킬 것</h2>
+<ul style="padding-left:20px">
+  <li>금액 비교는 <b>중앙값</b>으로 한다. 평균을 썼다가 규모 층화 결론이 뒤집힌 적이 있다.</li>
+  <li>상품 보유는 금액이 아니라 <b>좌수 순서코드(_ord) &gt; 0</b>으로 판정한다. 요구불예금잔액 0인 행의 10.9%가 실제로는 계좌가 있다.</li>
+  <li>좌수·건수는 <code>"2개초과 5개이하"</code> 같은 글자다. 숫자로 바꾸지 말고 0~9 순서코드로 바꾼다.</li>
+  <li>출력은 집계만 한다. 법인ID, 개별 법인 값, <code>df.head()</code> 는 출력하지 않는다.</li>
+</ul>
+
+<footer>
+  원팀 · 감소 신호 판정 기준 인계 · 모든 수치는 법인 집계값 · 근거: output/06_signal_validation (04, 05), output/08_gap_sensitivity (02, 05), output/10_missing_mechanism
+</footer>
+</div>
+</body>
+</html>
