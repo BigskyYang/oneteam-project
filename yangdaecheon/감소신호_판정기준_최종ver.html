@@ -72,12 +72,12 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
 <div class="wrap">
 
 <header>
-  <div class="eyebrow">원팀 · 인계 문서 · 관계 약화 · 회복 판정 기준 · 개정판</div>
-  <h1>관계 약화를 잡는 기준과 회복을 판정하는 기준</h1>
+  <div class="eyebrow">원팀 · 인계 문서 · 관계 약화 판정 기준 · 개정판</div>
+  <h1>관계 약화를 잡는 기준과 약화 이후를 보는 방법</h1>
   <p class="sub">10~13단계 검증으로 바뀐 정의 전체. 팀원이 같은 기준으로 계산할 수 있도록 정리했다.</p>
   <div class="meta">
     <span>작성 <b>양대천 · 2026.09.28 개정</b></span>
-    <span>근거 <b>output/10 ~ 15 단계 산출물</b></span><span>개정 <b>2026.09.29 (회복 시점·기준치)</b></span>
+    <span>근거 <b>output/10 ~ 15 단계 산출물</b></span><span>개정 <b>2026.09.29 (회복 판정 폐기 · 단기 반등은 참고용)</b></span>
   </div>
 </header>
 
@@ -86,23 +86,24 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
   <ul>
     <li>단위가 <b>법인이 아니라 '감소 에피소드'</b>로 바뀌었다. 한 법인이 여러 번 약화될 수 있고, 매번 결과가 다르기 때문이다.</li>
     <li>기준은 <b>작년 같은 3개월 대비 입금 40% 이상 감소</b>다(예전 30%).</li>
-    <li>회복은 <b>신호 직후 3개월(t+1~t+3) 입금이 작년 같은 달의 70% 이상</b>인 경우다(예전: 6개월 안에 한 번이라도 도달. 14단계에서 판정 시점을 t+4~t+6 → t+1~t+3으로 앞당김).</li>
+    <li><b>'회복' 판정은 쓰지 않는다.</b> 판정 시점(t+1~t+3 ~ t+4~t+6)과 기준(60~90%)을 바꿔 봐도, 몇 달 안의 반등은 6개월~1년 뒤 상태를 거의 맞히지 못했다. 약화 직후 3개월의 반등은 <b>단기 반등(참고용)</b>으로만 남기고, 약화 이후는 <b>7~12개월 뒤 입금 수준</b>(평소 대비 %)으로 본다.</li>
+    <li>상품 격차는 기획서 RQ3처럼 <b>같은 유형 안에서 약화 고객 vs 약화되지 않은 고객</b>으로 비교한다.</li>
     <li>예전 숫자(5,997 / 2,700 / 2,959 / 338, 8,335 코호트)는 <b>폐기된 정의의 수치</b>다. 쓰지 않는다.</li>
   </ul>
 </div>
 
 <div class="kpis">
   <div class="kpi"><div class="l">관계 약화 에피소드</div><div class="v">8,176</div><div class="s">법인 5,941개</div></div>
-  <div class="kpi"><div class="l">회복</div><div class="v">3,844</div><div class="s">에피소드 · 법인 3,119</div></div>
-  <div class="kpi"><div class="l">지속저조</div><div class="v">3,307</div><div class="s">에피소드 · 법인 3,005</div></div>
+  <div class="kpi"><div class="l">단기 반등 (참고)</div><div class="v">3,844</div><div class="s">에피소드 · 법인 3,119</div></div>
+  <div class="kpi"><div class="l">반등 없음 (참고)</div><div class="v">3,307</div><div class="s">에피소드 · 법인 3,005</div></div>
   <div class="kpi"><div class="l">관측중단 · 판정불가</div><div class="v">520 · 505</div><div class="s">비교에서 제외</div></div>
 </div>
 
 <!-- 1 -->
 <h2><span class="n">01</span>한눈에 보는 판정 흐름</h2>
-<p class="lead">한 법인을 기준월 <b>t</b>에서 본다. 올해 최근 3개월을 작년 같은 3개월과 비교해 약화를 잡고, 바로 다음 3개월을 다시 <b>그 달의 작년</b>과 비교해 회복을 판정한다. 두 비교 모두 같은 달끼리 비교하므로 계절 영향이 빠진다.</p>
+<p class="lead">한 법인을 기준월 <b>t</b>에서 본다. 올해 최근 3개월을 작년 같은 3개월과 비교해 약화를 잡고, 바로 다음 3개월을 다시 <b>그 달의 작년</b>과 비교해 단기 반등을 참고로 기록한다. 두 비교 모두 같은 달끼리 비교하므로 계절 영향이 빠진다. 약화 이후의 주 잣대는 그림 밖, <b>7~12개월 뒤 입금 수준</b>이다.</p>
 <div class="diagram">
-<svg viewBox="0 0 900 230" role="img" aria-label="관계 약화 신호와 회복 판정 창 타임라인">
+<svg viewBox="0 0 900 230" role="img" aria-label="관계 약화 신호와 단기 반등 창 타임라인">
   <g font-size="12">
     <line x1="30" y1="150" x2="880" y2="150" stroke="var(--muted)" stroke-width="1.5"/>
     <!-- 21칸 폭 40.5: t-14 = x30 -->
@@ -116,13 +117,13 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
     <text x="576" y="125" text-anchor="middle" fill="var(--ink)" font-weight="700">after</text>
     <text x="576" y="90" text-anchor="middle" fill="var(--muted)">t−2~t</text>
     <rect x="638" y="102" width="121" height="36" rx="6" fill="var(--olive)" opacity=".2" stroke="var(--olive)" stroke-width="1.5"/>
-    <text x="698" y="125" text-anchor="middle" fill="var(--ink)" font-weight="700">회복 창</text>
+    <text x="698" y="125" text-anchor="middle" fill="var(--ink)" font-weight="700">반등 창(참고)</text>
     <text x="698" y="90" text-anchor="middle" fill="var(--muted)">t+1~t+3</text>
     <!-- 화살표 -->
     <path d="M90 100 C 90 50, 576 50, 576 100" fill="none" stroke="var(--clay)" stroke-width="1.5"/>
     <text x="333" y="46" text-anchor="middle" fill="var(--clay)" font-weight="700">① 약화: after 가 before 보다 40% 이상 적음</text>
     <path d="M212 140 C 212 200, 698 200, 698 140" fill="none" stroke="var(--olive)" stroke-width="1.5"/>
-    <text x="455" y="220" text-anchor="middle" fill="var(--olive)" font-weight="700">② 회복: 회복 창이 작년 같은 달의 70% 이상</text>
+    <text x="455" y="220" text-anchor="middle" fill="var(--olive)" font-weight="700">② 단기 반등(참고): 반등 창이 작년 같은 달의 70% 이상</text>
     <text x="30" y="172" fill="var(--muted)">t−14</text>
     <text x="637" y="172" text-anchor="middle" fill="var(--ink)" font-weight="700">t</text>
     <text x="880" y="172" text-anchor="end" fill="var(--muted)">t+6</text>
@@ -148,17 +149,21 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
 </table></div>
 
 <!-- 3 -->
-<h2><span class="n">03</span>결과 판정 기준</h2>
+<h2><span class="n">03</span>약화 이후를 보는 방법</h2>
 <div class="tw"><table>
-<tr><th>순서</th><th>결과</th><th>조건</th></tr>
-<tr><td>1</td><td><b>관측중단</b></td><td>마지막 관측 달이 t~t+3 이고 데이터 끝(2025.12)까지 다시 나타나지 않음. <span class="tag a">'이탈'이라 부르지 않는다</span></td></tr>
-<tr><td>2</td><td><b>회복</b></td><td>회복 창(t+1~t+3) 평균이 <b>같은 달 작년(t−11~t−9) 평균의 70% 이상</b></td></tr>
-<tr><td>3</td><td><b>지속저조</b></td><td>회복 창이 유효한데 70% 미만</td></tr>
-<tr><td>4</td><td><b>판정불가</b></td><td>회복 창 또는 비교 창이 무효 (3개월 중 관측 2개월 미만)</td></tr>
+<tr><th>구분</th><th>정의</th><th>쓰임</th></tr>
+<tr><td><b>7~12개월 뒤 입금 수준</b> <span class="tag o">주 잣대</span></td><td>약화 7~12개월 뒤 입금이 평소(약화 전 작년 같은 달)의 몇 %인지. 기준선을 긋지 않고 %를 그대로 쓴다</td><td>유형별 "방치하면 어떻게 되나"(예후). 2단계 첫 작업에서 산출. 2024.03~12 약화만 계산 가능</td></tr>
+<tr><td><b>관측중단</b></td><td>마지막 관측 달이 t~t+3 이고 데이터 끝(2025.12)까지 다시 나타나지 않음</td><td>따로 센다. <span class="tag a">'이탈'이라 부르지 않는다</span></td></tr>
+<tr><td><b>단기 반등</b> <span class="tag">참고</span></td><td>반등 창(t+1~t+3) 평균이 같은 달 작년(t−11~t−9) 평균의 70% 이상</td><td>설명용. 고객 구분이나 비교 기준에는 쓰지 않는다</td></tr>
+<tr><td><b>반등 없음</b> <span class="tag">참고</span></td><td>반등 창이 유효한데 70% 미만</td><td>설명용</td></tr>
+<tr><td><b>판정불가</b></td><td>반등 창 또는 비교 창이 무효 (3개월 중 관측 2개월 미만)</td><td>반등 집계에서만 제외</td></tr>
 </table></div>
-<div class="note">보조 3분류: <b>유지 회복</b>(처음 70%에 닿은 뒤 계속 유지) / <b>일시 반등</b>(한 번 닿았다가 다시 떨어짐) / <b>지속저조</b>. 1년 뒤 상태가 셋 다 구분된다(13단계). 보고서에서 함께 쓴다.</div>
-<div class="note warn"><b>70%와 판정 시점은 데이터가 고른 "정답"이 아니다.</b> 70%는 60~90%가 신뢰구간 안에서 모두 동률이라 유지했다. 판정 시점도 t+1~t+3부터 t+4~t+6까지 6개월 뒤를 맞히는 힘이 모두 비슷해서(평가 점수 0.129~0.139), 미리 정한 규칙대로 가장 이른 시점을 골랐다(14단계). 어느 시점이든 회복 판정은 이후 상태를 약하게만 예측한다. 회복이라고 해서 관계가 정상화됐다는 뜻은 아니다.</div>
-<div class="note"><b>입출금 유형</b>(15단계): 같은 창에서 요구불출금도 40% 이상 줄면 <b>동반 감소형</b>(65%), 아니면 <b>출금 유지형</b>(35%). 회복률 48.7% vs 63.3%로 가장 크게 갈린다. 결과 비교와 상품 제안에서 함께 쓴다.</div>
+<div class="note warn"><b>왜 '회복' 판정을 버렸나.</b> 판정 방식(한 번 도달 / 종점 / 계속 유지), 시점(t+1~t+3 ~ t+4~t+6), 기준(60~90%)을 모두 바꿔 봤지만(13·14단계), 어느 조합도 6개월~1년 뒤 상태를 잘 맞히지 못했다(평가 점수 0.1대, 0이 우연·1이 완벽). 예를 들어 단기 반등 사건 중 6개월 뒤에도 평소의 70% 이상인 비율은 36.9%, 반등 없음은 25.5%다. 게다가 반등 여부는 약화 3개월 뒤에야 알 수 있어 조기 대응에 쓸 수 없다. 그래서 고객 구분은 <b>약화가 잡힌 순간 보이는 것</b>으로만 한다.</div>
+<div class="note"><b>약화 시점에 보이는 구분</b> (고객 구분·상품 제안에 쓰는 축)<br>
+· <b>입출금 방식</b>(15단계): 같은 창에서 요구불출금도 40% 이상 줄면 <b>동반 감소형</b>(65%), 아니면 <b>출금 유지형</b>(35%). 단기 반등 비율이 48.7% vs 63.3%로 크게 달랐다. 7~12개월 뒤 수준으로도 차이가 유지되는지 2단계 첫 작업에서 재확인한다.<br>
+· <b>강한 약화</b>: 잔액·채널·자동이체까지 같이 준 약화<br>
+· <b>변동성</b>: 입금이 원래 들쭉날쭉한 고객(4·5분위)은 결과를 따로 표시<br>
+· <b>금융 이용 유형</b>: 기획서 ②, 2단계에서 만든다</div>
 
 <!-- 4 -->
 <h2><span class="n">04</span>무엇이 바뀌었나</h2>
@@ -168,8 +173,9 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
 <tr><td>감소 기준</td><td class="old">30%</td><td>40%</td><td>30%는 신호 지속성 기준(2배)에 못 미침 (1.85)</td></tr>
 <tr><td>빈 달</td><td class="old">3개월 모두 관측</td><td>3개월 중 2개월 이상</td><td>분기말 행 누락</td></tr>
 <tr><td>금액 자료형</td><td class="old">float32</td><td>float64 + 경계 포함</td><td>경계 동점에서 판정 뒤집힘</td></tr>
-<tr><td>회복 시점</td><td class="old">6개월 안 한 번이라도</td><td>신호 직후 3개월(t+1~t+3)</td><td>한 번 도달 방식은 평가 곡선이 격자 끝에서 최대(13단계). 종점 시점은 t+1~t+4 모두 동률이라 가장 이른 시점(14단계)</td></tr>
-<tr><td>회복 비교 대상</td><td class="old">before (다른 달)</td><td>회복 창과 같은 달 작년</td><td>계절 오염 (상관 0.58)</td></tr>
+<tr><td>약화 이후를 보는 잣대</td><td class="old">회복 / 지속저조 (6개월 안 한 번이라도 70%)</td><td>7~12개월 뒤 입금 수준(연속값). 3개월 반등은 참고용</td><td>어떤 회복 판정(방식·시점·기준)도 이후 상태를 거의 맞히지 못함(13·14단계). 반등은 3개월 뒤에야 알 수 있어 조기 대응에도 못 씀</td></tr>
+<tr><td>상품 격차 비교</td><td class="old">회복 vs 지속저조</td><td>같은 유형 안에서 약화 vs 약화되지 않은 고객</td><td>약한 이름표 대신 검증된 약화 신호(6개월 뒤 유지 2.2배)를 기준으로. 기획서 RQ3의 원래 설계</td></tr>
+<tr><td>반등 비교 대상</td><td class="old">before (다른 달)</td><td>반등 창과 같은 달 작년</td><td>계절 오염 (상관 0.58)</td></tr>
 <tr><td>이탈</td><td class="old">이탈</td><td>관측중단</td><td>행 없음을 이탈로 판정할 근거 없음 (10단계)</td></tr>
 </table></div>
 
@@ -180,13 +186,13 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
   <li><b>빈 달을 "3개월 모두 관측"으로 걸었다</b><br><span style="font-size:13px;color:var(--ink2)">exclude 로 하면 에피소드 7,131 / 법인 5,198 이 나온다. 기본은 partial.</span></li>
   <li><b>빈 달을 0으로 채웠다</b><br><span style="font-size:13px;color:var(--ink2)">빈 달은 NaN(모름)이다. 0 은 "거래가 없었다"는 뜻이라 가짜 감소가 생긴다.</span></li>
   <li><b>금액을 float32로 읽었거나 경계를 포함하지 않았다</b><br><span style="font-size:13px;color:var(--ink2)">정확히 40% 감소인 경우가 흔하다.</span></li>
-  <li><b>회복을 before 와 비교했다</b><br><span style="font-size:13px;color:var(--ink2)">회복 창(t+1~t+3)은 그 달의 작년(t−11~t−9)과 비교한다. t+4~t+6(옛 시점)으로 계산하면 회복 3,941 / 지속저조 3,084가 나온다.</span></li>
+  <li><b>단기 반등을 before 와 비교했다</b><br><span style="font-size:13px;color:var(--ink2)">반등 창(t+1~t+3)은 그 달의 작년(t−11~t−9)과 비교한다. t+4~t+6(옛 시점)으로 계산하면 3,941 / 3,084가 나온다. 어느 쪽이든 참고용이다.</span></li>
   <li><b>36개월 연속 관측 법인만 봤다</b><br><span style="font-size:13px;color:var(--ink2)">36개월 모두 관측된 법인은 3,372개(21.8%)뿐이고 큰 법인에 치우쳐 있다.</span></li>
 </ul>
 
 <!-- 6 -->
 <h2><span class="n">06</span>코드로 옮기면</h2>
-<p class="lead">원본 구현: <code>code/eda_signal_definition.py</code>(<code>Detector</code>, <code>episodes</code>), <code>code/eda_recovery_definition.py</code>(회복 M2/S1). 새로 짜지 말고 가져다 쓴다.</p>
+<p class="lead">원본 구현: <code>code/eda_signal_definition.py</code>(<code>Detector</code>, <code>episodes</code>), <code>code/eda_channel_and_type.py</code>(단기 반등 기준치·입출금 유형). 새로 짜지 말고 가져다 쓴다.</p>
 <pre># pres   : (법인수, 36) bool  — 그 달 행이 있으면 True
 # demand : (법인수, 36) float64 — 요구불입금금액, 행이 없는 달은 NaN (0 아님)
 # 월 인덱스 0 = 2023.01, 35 = 2025.12
@@ -207,15 +213,18 @@ for t in range(14, 30):                                   # 2024.03 ~ 2025.06
 
 # 2) 에피소드: 법인별 신호 달을 정렬해 간격 2개월 이하는 한 묶음, 첫 달이 판정 t
 
-# 3) 결과 (에피소드 첫 달 t 기준)
-def outcome(c, t):
+# 3) 약화 이후 (에피소드 첫 달 t 기준)
+def after_signal(c, t):
     if t &lt;= last_pos[c] &lt;= t + 3:                         # 끝까지 복귀 없음
         return "관측중단"
     now  = window_mean([c], t + 1, t + 4)[0]              # t+1 ~ t+3
     base = window_mean([c], t - 11, t - 8)[0]             # 같은 달 작년 (t-11 ~ t-9)
     if not (np.isfinite(now) and np.isfinite(base)) or base &lt;= 0:
         return "판정불가"
-    return "회복" if now &gt;= (0.70 - EPS) * base else "지속저조"</pre>
+    return "단기 반등" if now &gt;= (0.70 - EPS) * base else "반등 없음"   # 참고용
+
+# 4) 주 잣대: 7~12개월 뒤 입금 수준 (2단계에서 산출, 2024.03~12 약화만)
+#    평소 = 약화 전 작년 같은 달. 달력월을 맞추거나 계절지수로 보정해서 비교한다.</pre>
 <div class="note">의사코드는 이해를 돕기 위한 요약이다. 실제 수치는 위 스크립트의 함수로 재현한다. 통계 비교는 에피소드 단위로 하고, 신뢰구간은 <b>법인 단위로 재표집</b>한다(같은 법인의 에피소드는 서로 독립이 아니다).</div>
 
 <!-- 7 -->
