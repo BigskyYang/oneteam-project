@@ -93,8 +93,9 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
 
 <div class="note warn" style="margin-bottom:16px"><b>2026.09.29 갱신 (14·15단계)</b><br>
 ① <b>'회복' 판정을 쓰지 않기로 했다.</b> 06장의 회복 정의에 이어 14단계에서 판정 시점(t+1~t+3 ~ t+4~t+6)까지 바꿔 봤지만, 어느 시점이든 6개월 뒤를 맞히는 힘이 0.1대로 약했다(0.129~0.139). 3개월 반등 사건 중 6개월 뒤에도 평소의 70% 이상인 비율은 36.9%(반등 없음 25.5%)다. 반등은 <b>단기 반등(참고용)</b>으로만 남기고, 약화 이후는 <b>7~12개월 뒤 입금 수준</b>으로 본다. 상품 격차는 <b>같은 유형 안에서 약화 vs 약화되지 않은 고객</b>으로 비교한다(기획서 RQ3).<br>
-② 07장의 '채널 관여도'는 <b>약화 중에 채널을 유지했느냐</b>의 효과였다. 약화 전 관여도는 거의 무관했다(통제 모형 AUC 0.55). 대신 <b>약해지는 방식</b>이 크게 갈린다. 3개월 반등 비율이 출금 유지형 63.3% vs 동반 감소형 48.7%이며, 7~12개월 뒤 수준으로 재확인할 예정이다.<br>
+② 07장의 '채널 관여도'는 <b>약화 중에 채널을 유지했느냐</b>의 효과였다. 약화 전 관여도는 거의 무관했다(통제 모형 AUC 0.55). 대신 <b>약해지는 방식</b>이 크게 갈린다. 3개월 반등 비율이 출금 유지형 63.3% vs 동반 감소형 48.7%이며, <b>16단계에서 7~12개월 뒤 수준으로도 유지됨을 확인했다</b>(1년 뒤 평소의 61~72% vs 37~44%).<br>
 ③ 계절조정 후 직전 비교(이태우 08)는 신호가 금방 되돌아와(유지 배수 1.57 vs 2.20) 채택하지 않았다.<br>
+④ <b>16단계</b>: 40% 기준은 2024년·2025년 상반기·법인 첫 사건으로 나눠도 재현됐다(6개월 뒤 감소 유지 약 40% vs 비교군 18%). 상품 보유 격차로 좁힌 상담 후보는 없었다. 결과 정리는 <code>대응절차_분석결과_최종ver.html</code>.<br>
 아래 본문은 13단계 시점의 기록이다. 06장의 '회복' 결론과 09장의 회복 정의는 위 ①로 대체된다. 현재 정의는 <code>감소신호_판정기준_최종ver.html</code>을 따른다.</div>
 
 <div class="verdict">
@@ -125,7 +126,7 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
 <tr><td>3개월 창은 근거가 있나?</td><td>있다. 2개월과 같은 시점에 잡으면서 더 안정적이다</td><td class="r">11</td></tr>
 <tr><td>업종·변동성별로 기준을 달리해야 하나?</td><td>보정해도 나아지지 않는다. 같은 기준을 쓴다</td><td class="r">11</td></tr>
 <tr><td>얼마나 줄어야 약화인가?</td><td>클수록 오래 가는 연속적 관계. 40%가 "2배 지속" 기준의 최소 통과값</td><td class="r">12</td></tr>
-<tr><td>입금만 준 게 아니라 관계가 약해진 게 맞나?</td><td>맞다. 예금 잔액·이용 채널도 같이 줄고, 업종 경기 탓도 아니다</td><td class="r">12</td></tr>
+<tr><td>입금만 준 게 아니라 관계가 약해진 게 맞나?</td><td>맞다. 예금 잔액·이용 채널도 같이 줄고, 같은 업종 평균 변화로는 설명되지 않는다</td><td class="r">12</td></tr>
 <tr><td>회복은 어떻게 판정하나?</td><td>6개월 뒤 같은 달 작년 대비 70%. 이전 방식엔 계절 오염이 있었다</td><td class="r">13</td></tr>
 </table></div>
 
@@ -179,7 +180,7 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
 <div class="tw"><table>
 <tr><th>검증</th><th class="r">30% 기준</th><th class="r">45% 기준</th><th>판정</th></tr>
 <tr><td>잡음이 아닌가 (6개월 뒤 유지 배수 ≥ 2)</td><td class="r">1.85</td><td class="r">2.40</td><td>30% <span class="tag c">실패</span> · 40%부터 <span class="tag o">통과</span></td></tr>
-<tr><td>업종 경기 탓이 아닌가 (업종 중앙값을 빼도 신호인 비율 ≥ 80%)</td><td class="r">84%</td><td class="r">86%</td><td><span class="tag o">통과</span></td></tr>
+<tr><td>업종 평균으로 설명되는가 (업종 중앙값을 빼도 신호인 비율 ≥ 80%)</td><td class="r">84%</td><td class="r">86%</td><td><span class="tag o">통과</span></td></tr>
 <tr><td>관계가 같이 약해지나: 요구불예금잔액 (SMD)</td><td class="r">−0.38</td><td class="r">−0.42</td><td><span class="tag o">통과</span></td></tr>
 <tr><td>관계가 같이 약해지나: 이용채널수 (SMD)</td><td class="r">−0.44</td><td class="r">−0.50</td><td><span class="tag o">통과</span></td></tr>
 <tr><td>관계가 같이 약해지나: 자동이체 (SMD)</td><td class="r">−0.14</td><td class="r">−0.17</td><td><span class="tag m">약함</span></td></tr>

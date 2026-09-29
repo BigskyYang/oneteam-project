@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>대응 절차 분석 결과</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --bg:#FAF9F5;--paper:#FFFFFF;--ink:#141413;--ink2:#3D3D3A;--muted:#87867F;--line:#D1CFC5;--soft:#F0EEE6;
+  --clay:#C8643F;--blue:#2F76B8;--olive:#5F7A45;--amber:#A87A12;--bar:#B9B6AB;--grid:#E6E3DA;
+  --sans:"Pretendard",system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+    --clay:#CC7049;--blue:#4088C8;--olive:#9DB57F;--amber:#D9AE4A;--bar:#6B6962;--grid:#34332F;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+  --clay:#CC7049;--blue:#4088C8;--olive:#9DB57F;--amber:#D9AE4A;--bar:#6B6962;--grid:#34332F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.75}
+.wrap{max-width:960px;margin:0 auto;padding:36px 16px 80px}
+header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:24px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+h1{font-size:27px;line-height:1.3;margin-bottom:6px}
+.sub{color:var(--ink2)}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink)}
+h2{font-size:21px;margin:46px 0 10px;display:flex;gap:10px;align-items:baseline}
+h2 .n{font-family:var(--mono);font-size:12px;color:var(--clay);border:1.5px solid var(--clay);border-radius:6px;padding:0 7px}
+h3{font-size:16.5px;margin:22px 0 8px}
+p{margin-bottom:10px}
+.lead{color:var(--ink2);margin-bottom:14px}
+.box{background:var(--paper);border:1.5px solid var(--line);border-left:6px solid var(--olive);border-radius:10px;padding:18px 20px;margin:10px 0 18px}
+.box .big{font-size:19px;font-weight:700;margin-bottom:8px}
+.box ol{padding-left:22px}.box li{margin:5px 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);border-radius:10px;overflow:hidden;margin:16px 0}
+.kpi{background:var(--paper);padding:14px 10px;text-align:center}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-family:var(--mono);font-size:23px;font-weight:700;line-height:1.25}
+.kpi .s{font-size:12px;color:var(--muted)}
+.note{font-size:14px;color:var(--ink2);background:var(--soft);border-radius:8px;padding:11px 15px;margin:12px 0}
+.warn{border-left:4px solid var(--amber)}
+.easy{font-size:14px;background:var(--paper);border:1.5px dashed var(--line);border-radius:8px;padding:10px 14px;margin:10px 0}
+.easy b.k{color:var(--clay)}
+.tw{overflow-x:auto;margin:10px 0 16px}
+table{width:100%;border-collapse:collapse;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;overflow:hidden;font-size:14.5px}
+th{background:var(--soft);text-align:left;padding:9px 12px;border-bottom:1.5px solid var(--line);font-weight:700;white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--soft);vertical-align:top}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+tr.hl td{background:var(--soft)}
+.tag{display:inline-block;font-size:12px;padding:0 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+.tag.o{color:var(--olive)}.tag.c{color:var(--clay)}.tag.a{color:var(--amber)}.tag.m{color:var(--muted)}
+.chart{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:14px 14px 8px;margin:12px 0}
+.chart .ct{font-weight:700;font-size:14.5px}
+.chart .cs{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--sans);fill:var(--muted);font-size:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:14px 16px}
+.card .ct{font-weight:700;margin-bottom:4px}
+.card .small{font-size:14px;color:var(--ink2)}
+.card ul{padding-left:18px;font-size:14px;color:var(--ink2)}
+footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-size:12px;color:var(--muted)}
+@media(max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">원팀 · 16단계 · 대응 절차 설계용 분석 결과</div>
+  <h1>본행 거래 위축 고객, 누구를 먼저 보고 무엇을 확인할까</h1>
+  <p class="sub">탐지 → 진단 → 예후 → 대응 → 검증 절차의 근거가 되는 분석 결과. 처음 보는 사람도 읽을 수 있게 정리했습니다.</p>
+  <div class="meta">
+    <span>데이터 <b>법인 15,473개 × 36개월</b></span>
+    <span>작성 <b>2026.09.29</b></span>
+    <span>근거 <b>output/16_response_design</b></span>
+  </div>
+</header>
+
+<div class="box">
+  <div class="big">결론 네 가지</div>
+  <ol>
+    <li><b>탐지 규칙은 믿을 만하다.</b> 잡힌 고객의 40%가 6개월 뒤에도 거래가 줄어 있다(비교 고객은 18%). 기간을 나눠도, 반복 경보를 빼도 같다.</li>
+    <li><b>매달 약 440개 법인이 새로 잡힌다.</b> 대부분 대구·경북이다. 4곳 중 1곳은 1년 안에 다시 잡힌 법인이다.</li>
+    <li><b>약해지는 방식에 따라 1년 뒤가 크게 다르다.</b> 출금은 유지된 채 입금만 줄어든 고객은 1년 뒤 평소의 72% 수준이다. 입출금이 같이 줄고 잔액·채널까지 줄어든 고객은 37%에 그친다.</li>
+    <li><b>특정 상품이 부족해서라는 근거는 없었다.</b> 대신 약화 고객은 <b>1년 전부터 관계가 얇았다</b>. 이용 채널이 적고, 전담 관리 밖에 있고, 등급이 낮았다.</li>
+  </ol>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="l">6개월 뒤에도 감소 상태</div><div class="v">40% vs 18%</div><div class="s">탐지 고객 vs 비교 고객</div></div>
+  <div class="kpi"><div class="l">월별 신규 탐지</div><div class="v">약 440개</div><div class="s">법인 (첫 달 제외 평균)</div></div>
+  <div class="kpi"><div class="l">1년 뒤 입금 수준</div><div class="v">72% ↔ 37%</div><div class="s">가장 나은 칸 ↔ 가장 나쁜 칸</div></div>
+  <div class="kpi"><div class="l">상담 후보 상품</div><div class="v">0개</div><div class="s">보정 후 근거를 넘은 상품 없음</div></div>
+</div>
+
+<div class="note warn">이 문서의 모든 결과는 <b>관계(상관)</b>이지 원인이 아닙니다. 입금이 줄어든 이유가 매출 감소인지, 다른 은행으로 옮겨서인지, 일회성 입금이 끝나서인지는 이 데이터로 구분할 수 없습니다. 그래서 대상은 '이탈 고객'이 아니라 <b>'본행 거래 위축 고객'</b>이라고 부릅니다.</div>
+
+<!-- 1 -->
+<h2><span class="n">01</span>탐지: 규칙이 믿을 만한가</h2>
+<p class="lead">규칙은 1단계에서 고정했습니다. <b>작년 같은 3개월보다 요구불입금이 40% 이상 줄면 탐지</b>합니다. 여기서는 이 규칙으로 잡힌 고객이 정말 계속 약한 상태로 남는지 확인했습니다.</p>
+<div class="tw"><table>
+<tr><th>확인 방법</th><th class="r">탐지 고객</th><th class="r">비교 고객</th><th class="r">차이</th></tr>
+<tr class="hl"><td><b>전체 (40% 기준)</b></td><td class="r"><b>39.9%</b></td><td class="r">18.2%</td><td class="r"><b>+21.8%p</b> (20.5~23.0)</td></tr>
+<tr><td>2024년 3~12월 탐지분만</td><td class="r">39.8%</td><td class="r">18.1%</td><td class="r">+21.7%p</td></tr>
+<tr><td>2025년 1~6월 탐지분만</td><td class="r">40.2%</td><td class="r">18.2%</td><td class="r">+22.0%p</td></tr>
+<tr><td>법인별 첫 탐지만 (반복 제외)</td><td class="r">41.3%</td><td class="r">17.7%</td><td class="r">+23.6%p</td></tr>
+<tr><td>참고: 30% 기준 / 50% 기준</td><td class="r">42.3% / 37.8%</td><td class="r">22.9% / 14.4%</td><td class="r">+19.4 / +23.4%p</td></tr>
+</table></div>
+<div class="easy"><b class="k">표 읽는 법</b> "6개월 뒤에도 작년보다 40% 이상 줄어 있는 비율"입니다. 비교 고객은 같은 달·같은 규모·같은 업종이면서 그 달에 탐지되지 않은 법인입니다. 탐지 고객이 비교 고객보다 22%p 더 많이 약한 상태로 남았으니, 규칙이 우연한 출렁임만 잡는 게 아닙니다. 기간을 나눠도 거의 똑같아서, 우리가 고른 기준이 이 데이터에만 맞춰진 것도 아닙니다.</div>
+
+<h3>매달 몇 곳을 봐야 하나</h3>
+<div class="chart">
+  <div class="ct">월별 신규 탐지 법인 수 (40% 기준)</div>
+  <div class="cs">2024년 3월은 이미 진행 중이던 약화가 한꺼번에 잡혀 1,547곳으로 튀므로 막대에서 뺐습니다 · 점선 = 이후 15개월 평균 442곳</div>
+  <svg viewBox="0 0 720 210" role="img" aria-label="2024년 4월부터 2025년 6월까지 월별 신규 탐지 법인 수, 평균 442">
+    <g>
+      <line x1="40" y1="170" x2="710" y2="170" stroke="var(--muted)"/>
+      <line x1="40" y1="120" x2="710" y2="120" stroke="var(--grid)"/><text x="34" y="124" text-anchor="end">200</text>
+      <line x1="40" y1="70" x2="710" y2="70" stroke="var(--grid)"/><text x="34" y="74" text-anchor="end">400</text>
+      <line x1="40" y1="20" x2="710" y2="20" stroke="var(--grid)"/><text x="34" y="24" text-anchor="end">600</text>
+      <text x="34" y="174" text-anchor="end">0</text>
+    </g>
+    <g id="mbars"></g>
+    <line x1="40" x2="710" y1="59.5" y2="59.5" stroke="var(--ink2)" stroke-dasharray="5 4"/>
+    <text x="706" y="54" text-anchor="end" style="fill:var(--ink2)">평균 442</text>
+  </svg>
+</div>
+<div class="grid2">
+  <div class="card"><div class="ct">지역별 월평균 탐지</div>
+    <div class="tw" style="margin:4px 0 0"><table style="font-size:14px">
+    <tr><th>시도</th><th class="r">월평균</th></tr>
+    <tr><td>대구</td><td class="r">211</td></tr>
+    <tr><td>경북</td><td class="r">166</td></tr>
+    <tr><td>수도권</td><td class="r">58</td></tr>
+    <tr><td>부울경</td><td class="r">51</td></tr>
+    <tr><td>기타·결측</td><td class="r">25</td></tr>
+    </table></div>
+    <p class="small" style="margin-top:6px;color:var(--muted);font-size:12.5px">16개월 평균(첫 달 포함). 담당 인력 배분의 기준</p>
+  </div>
+  <div class="card"><div class="ct">운영에서 챙길 것</div>
+    <ul>
+      <li><b>반복 경보 25%</b>: 직전 12개월 안에 이미 탐지된 법인. 재접촉 제한 규칙이 필요하다</li>
+      <li><b>관측된 입금 감소</b>: 탐지 1건당 3개월 입금 감소액 중앙값 217백만원. 매출이나 은행 이익이 아니라 "본행으로 들어오던 돈이 줄어든 규모"다</li>
+      <li>기준을 30%로 내리면 탐지가 늘지만 정확도가 떨어지고, 50%로 올리면 그 반대다. 은행의 상담 여력에 맞춰 조절할 수 있다</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 2 -->
+<h2><span class="n">02</span>진단과 예후: 누구를 먼저 볼까</h2>
+<p class="lead">탐지된 순간 바로 알 수 있는 두 가지로 대응군을 나눴습니다. 하나는 <b>출금도 같이 줄었는지</b>(입출금 방식), 다른 하나는 <b>잔액·채널·자동이체까지 줄었는지</b>(강한 약화)입니다. 그리고 각 대응군이 <b>7~12개월 뒤</b> 평소의 몇 % 수준인지 봤습니다.</p>
+
+<div class="chart">
+  <div class="ct">대응군별 7~12개월 뒤 입금 수준 (약화 전 평소 대비, 중앙값)</div>
+  <div class="cs">2024년 3~12월 탐지분 · 달력월 차이는 2023년 계절지수로 조정 · 점선 = 평소의 70%</div>
+  <svg viewBox="0 0 720 250" role="img" aria-label="대응군별 1년 뒤 입금 수준: 출금 유지형 약화 72%, 출금 유지형 강한 약화 61%, 동반 감소형 약화 44%, 동반 감소형 강한 약화 37%, 비교 고객 102%">
+    <g font-size="13">
+      <line x1="200" y1="8" x2="200" y2="222" stroke="var(--line)"/>
+      <line x1="200" y1="222" x2="690" y2="222" stroke="var(--muted)"/>
+      <text x="200" y="240" text-anchor="middle">0%</text>
+      <text x="442" y="240" text-anchor="middle">50%</text>
+      <text x="684" y="240" text-anchor="middle">100%</text>
+      <line x1="539" y1="8" x2="539" y2="222" stroke="var(--ink2)" stroke-dasharray="5 4"/>
+      <text x="188" y="32" text-anchor="end" style="fill:var(--ink)">출금 유지 · 약화</text>
+      <path d="M200,18 H545 q4,0 4,4 V40 q0,4 -4,4 H200 Z" fill="var(--olive)"/>
+      <text x="556" y="36" style="fill:var(--ink);font-weight:700">72%</text>
+      <text x="188" y="74" text-anchor="end" style="fill:var(--ink)">출금 유지 · 강한 약화</text>
+      <path d="M200,60 H491 q4,0 4,4 V82 q0,4 -4,4 H200 Z" fill="var(--olive)" opacity=".75"/>
+      <text x="502" y="78" style="fill:var(--ink);font-weight:700">61%</text>
+      <text x="188" y="116" text-anchor="end" style="fill:var(--ink)">동반 감소 · 약화</text>
+      <path d="M200,102 H409 q4,0 4,4 V124 q0,4 -4,4 H200 Z" fill="var(--clay)" opacity=".8"/>
+      <text x="420" y="120" style="fill:var(--ink);font-weight:700">44%</text>
+      <text x="188" y="158" text-anchor="end" style="fill:var(--ink);font-weight:700">동반 감소 · 강한 약화</text>
+      <path d="M200,144 H375 q4,0 4,4 V166 q0,4 -4,4 H200 Z" fill="var(--clay)"/>
+      <text x="386" y="162" style="fill:var(--ink);font-weight:700">37%</text>
+      <text x="188" y="200" text-anchor="end">(비교 고객)</text>
+      <path d="M200,186 H690 q0,0 0,0 V208 H200 Z" fill="var(--bar)"/>
+      <text x="684" y="202" text-anchor="end" style="fill:#fff;font-weight:700">102%</text>
+    </g>
+  </svg>
+</div>
+
+<div class="tw"><table>
+<tr><th>대응군</th><th class="r">탐지 건수<br><span style="font-weight:400">(전체 기간)</span></th><th class="r">예후 평가<br><span style="font-weight:400">(2024년분)</span></th><th class="r">1년 뒤 수준</th><th class="r">평소의 70% 이상</th><th class="r">평소의 40% 미만</th><th class="r">기록 끊김</th></tr>
+<tr><td>출금 유지 · 약화</td><td class="r">1,320</td><td class="r">827</td><td class="r"><b>72%</b></td><td class="r">52%</td><td class="r">20%</td><td class="r">3%</td></tr>
+<tr><td>출금 유지 · 강한 약화</td><td class="r">1,397</td><td class="r">921</td><td class="r">61%</td><td class="r">41%</td><td class="r">28%</td><td class="r">3%</td></tr>
+<tr><td>동반 감소 · 약화</td><td class="r">2,084</td><td class="r">1,438</td><td class="r">44%</td><td class="r">26%</td><td class="r">46%</td><td class="r">4%</td></tr>
+<tr class="hl"><td><b>동반 감소 · 강한 약화</b></td><td class="r"><b>3,370</b></td><td class="r">2,347</td><td class="r"><b>37%</b></td><td class="r">24%</td><td class="r"><b>53%</b></td><td class="r">9%</td></tr>
+<tr><td>(비교 고객)</td><td class="r">—</td><td class="r">—</td><td class="r">102%</td><td class="r">78%</td><td class="r">8%</td><td class="r">—</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--muted)">탐지 건수 합계 8,171건(입출금 방식을 판정할 수 없는 5건 제외). 1년 뒤를 볼 수 있는 2024년 3~12월 탐지분 5,537건으로 예후를 계산했다. '기록 끊김' = 관측중단(탐지 뒤 3개월 안에 기록이 끊기고 돌아오지 않음).</p>
+<p><b>출금 유지형과 동반 감소형의 차이는 26%p 안팎</b>(신뢰구간 23~30%p)입니다. 1년 뒤 기준으로도 확실히 갈립니다. 기준을 바꿔 봐도 네 대응군의 순서는 그대로였습니다.</p>
+<div class="tw"><table>
+<tr><th>1년 뒤 수준 계산 방식</th><th class="r">출금 유지 · 약화</th><th class="r">출금 유지 · 강한</th><th class="r">동반 · 약화</th><th class="r">동반 · 강한</th></tr>
+<tr class="hl"><td><b>주 기준</b> (6개월 중 4개월 이상 기록)</td><td class="r">72%</td><td class="r">61%</td><td class="r">44%</td><td class="r">37%</td></tr>
+<tr><td>6개월 모두 기록 있는 경우만</td><td class="r">72%</td><td class="r">62%</td><td class="r">45%</td><td class="r">39%</td></tr>
+<tr><td>24개월 전 같은 달과 비교 (계절조정 없이)</td><td class="r">79%</td><td class="r">71%</td><td class="r">58%</td><td class="r">54%</td></tr>
+</table></div>
+<div class="note warn"><b>가장 나쁜 칸이 가장 크고, 실제로는 더 나쁠 수 있습니다.</b> '동반 감소 · 강한 약화'는 전체 탐지의 41%입니다. 이 칸은 기록이 끊기는 비율(9%)이 가장 높고 1년 뒤 수준을 계산할 수 있는 비율(76%)이 가장 낮습니다. 기록이 남은 고객만으로 계산한 37%는 실제보다 좋게 나왔을 가능성이 큽니다.</div>
+<div class="easy"><b class="k">'1년 뒤 수준'은 어떻게 계산했나요?</b> 탐지 7~12개월 뒤 6개월 평균 입금을, 약화 전 작년 같은 3개월 평균과 비교했습니다. 두 구간은 달력월이 달라서, 2023년 자료로 만든 업종별 계절지수로 맞췄습니다. 미래 자료는 쓰지 않았습니다. 비교 고객은 약 102%로, 평소 수준을 유지했습니다.</div>
+
+<!-- 3 -->
+<h2><span class="n">03</span>대응: 상품을 권할 근거가 있었나</h2>
+<p class="lead">같은 금융 이용 유형 안에서, 탐지 고객과 같은 달에 탐지되지 않은 고객의 <b>1년 전 상품 보유율</b>을 비교했습니다. 상품은 미리 3개(법인카드·운용성 예금·퇴직연금)로 정했고, 규모·변동성·기록 이력을 맞춘 뒤 비교했습니다.</p>
+<div class="tw"><table>
+<tr><th>상품</th><th>결과</th><th>판정</th></tr>
+<tr><td>법인카드</td><td>모든 유형에서 탐지 고객이 2~3%p 낮지만, 대부분 신뢰구간이 0을 포함</td><td><span class="tag m">근거 부족</span></td></tr>
+<tr><td>운용성 예금 (정기예금·적금)</td><td>시설자금대출 보유형에서만 −3.1%p. 다른 특성 차이가 남아 있음</td><td><span class="tag m">근거 부족</span></td></tr>
+<tr><td>퇴직연금</td><td>시설자금대출 보유형에서 23% vs 31% (−7.5%p)로 뚜렷함. 그러나 채널·등급·전담 차이가 보정 후에도 남아 있음</td><td><span class="tag m">근거 부족</span></td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--muted)">기본형은 외환·시설자금대출·운용상품(운용성 예금·퇴직연금 등)이 모두 없는 고객으로 정의한 유형이라 두 상품은 비교 대상이 아니다(정의상 제외). 금융 이용 유형 구성은 탐지 고객 중 기본형 46%, 시설자금대출 보유형 30%, 운용상품 보유형 15%, 외환 이용형 9%. 비교 고객은 기본형이 37%로, 탐지 고객 쪽에 기본형이 더 많다.</p>
+<p><b>미리 정한 규칙(보정 후 격차가 뚜렷하고, 두 집단의 다른 특성도 비슷해야 함)을 통과한 상품은 없었습니다.</b> 퇴직연금 차이도 "퇴직연금이 없어서"라기보다 관계 전반이 얇아서 생긴 차이일 가능성을 배제할 수 없습니다.</p>
+
+<h3>대신 보인 것: 약화 고객은 1년 전부터 관계가 얇았다</h3>
+<div class="tw"><table>
+<tr><th>1년 전 모습 (탐지 고객 − 비교 고객)</th><th class="r">그대로 비교</th><th class="r">규모·변동성·기록 이력 맞춘 뒤</th></tr>
+<tr><td>이용 채널 수</td><td class="r">−0.34 ~ −0.47</td><td class="r"><b>−0.15 ~ −0.23</b></td></tr>
+<tr><td>전담 관리 고객 비율</td><td class="r">−0.15 ~ −0.27</td><td class="r"><b>−0.11 ~ −0.16</b></td></tr>
+<tr><td>최우수 등급 비율</td><td class="r">−0.07 ~ −0.27</td><td class="r">−0.13 ~ −0.25</td></tr>
+<tr><td>일반 등급 비율</td><td class="r">+0.10 ~ +0.27</td><td class="r">+0.12 ~ +0.25</td></tr>
+<tr><td>보유 상품 수</td><td class="r">−0.09 ~ −0.49</td><td class="r">−0.07 ~ −0.29</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--muted)">숫자는 표준화 차이(SMD). 음수 = 탐지 고객이 더 적음. 0.1을 넘으면 무시하기 어려운 차이로 본다. 금융 이용 유형 4개 모두에서 같은 방향이었다.</p>
+<p>네 유형 모두에서 같은 방향이었습니다. <b>채널을 적게 쓰고, 전담 관리 밖에 있고, 등급이 낮은 고객이 약화되기 쉬웠습니다.</b> 15단계에서는 약화 전 채널 이용이 약화 '이후'의 반등과는 거의 관계가 없었습니다. 둘을 합치면 이렇게 정리됩니다.</p>
+<div class="grid2">
+  <div class="card"><div class="ct">약화가 생기는지</div><p class="small">관계의 <b>깊이</b>(채널·전담·등급)와 관련 있다 → <b>예방</b>의 근거</p></div>
+  <div class="card"><div class="ct">약화 뒤 어떻게 되는지</div><p class="small">약해지는 <b>방식</b>(입출금·강도)과 관련 있다 → <b>우선순위</b>의 근거</p></div>
+</div>
+
+<h3>그래서 상담에서 확인할 것</h3>
+<div class="grid2">
+  <div class="card"><div class="ct" style="color:var(--olive)">출금 유지형 (1년 뒤 61~72%)</div>
+    <ul><li>매출대금 받는 계좌를 바꿨는가</li><li>일회성 입금이 끝난 것인가</li><li>들어오는 돈 없이 잔액으로 버티는 자금 부족인가</li></ul>
+    <p class="small" style="margin-top:6px">회복 여지가 가장 크다. 원인에 따라 수납·자금관리 서비스나 운전자금이 후보가 된다</p></div>
+  <div class="card"><div class="ct" style="color:var(--clay)">동반 감소형 (1년 뒤 37~44%)</div>
+    <ul><li>영업 규모 자체가 줄었는가</li><li>거래 은행을 바꾸는 중인가</li><li>본행 대출은 유지 중이므로, 대출 관계를 통해 접촉할 수 있는가</li></ul>
+    <p class="small" style="margin-top:6px">가장 위험하고 규모도 가장 크다. 조기 접촉 우선 대상</p></div>
+</div>
+
+<!-- 4 -->
+<h2><span class="n">04</span>은행에 제안하는 절차</h2>
+<div class="tw"><table>
+<tr><th>단계</th><th>내용</th><th>근거</th></tr>
+<tr><td><b>탐지</b></td><td>매월 작년 동기 대비 입금 40% 감소 법인 자동 추출(월 약 440곳). 12개월 안 재경보는 재접촉 제한</td><td>01장</td></tr>
+<tr><td><b>진단</b></td><td>입출금 방식 × 강한 약화로 4개 대응군 분류. 탐지 시점에 바로 가능</td><td>02장</td></tr>
+<tr><td><b>우선순위</b></td><td>상담 여력이 적으면 '동반 감소 · 강한 약화'(가장 위험) 먼저, 성과를 먼저 보려면 '출금 유지형'(회복 여지가 큼) 먼저. 은행이 목표에 따라 선택</td><td>02장</td></tr>
+<tr><td><b>예방</b></td><td>전담 관리 밖이고 채널이 적은 고객을 약화 전부터 모니터링 대상에 포함</td><td>03장</td></tr>
+<tr><td><b>대응</b></td><td>상품을 자동 배정하지 않고, 대응군별 상담 질문으로 원인을 확인한 뒤 필요한 기능 연결. 상담 사유·결과 코드 기록</td><td>03장</td></tr>
+<tr><td><b>검증</b></td><td>대응군별로 상담 대상과 기존 관리 대상을 법인 단위로 무작위 배정. 3·6개월 뒤 입금·평균잔액·순수수료와 비용 비교</td><td>시험 설계</td></tr>
+</table></div>
+<div class="note"><b>기대 효과는 세 가지로 나눠 말합니다.</b><br>
+① <b>관측된 거래 위축 규모</b>: 탐지 1건당 3개월 입금 감소 중앙값 217백만원(매출·이익 아님)<br>
+② <b>대응 가능한 규모</b>: 월 약 440개 법인(반복 경보 제외 시 더 적음), 지역별 배분표<br>
+③ <b>손익분기점</b>: "상담 1건 비용 ÷ (지켜낸 평균잔액 × 예대마진 + 순수수료)"를 가정별로 계산할 틀만 제시하고, 원 단위 수익은 확정하지 않음</div>
+<p style="font-size:13px;color:var(--muted)">공모전 산출물에는 시군구 단위 집계만 남깁니다. 고객별 명단 연결은 은행 내부 시스템에서 하는 구조로 제안합니다.</p>
+
+<!-- 5 -->
+<h2><span class="n">05</span>한계</h2>
+<ul style="padding-left:20px">
+  <li>입금이 줄어든 원인(매출 감소 / 타행 이동 / 일회성 종료)을 구분할 수 없다. 그래서 상담 단계에서 원인을 확인하는 절차를 넣었다.</li>
+  <li>1년 뒤 예후는 2024년 3~12월 탐지분으로만 계산했다. 기록이 끊긴 고객은 빠지므로 위축이 심한 칸일수록 실제보다 좋게 나올 수 있다.</li>
+  <li>상품 비교는 정확히 맞출 수 있는 칸이 적어, 유형에 따라 탐지 고객의 19~44%가 비교에서 빠졌다(기본형 44%, 외환 이용형 38%).</li>
+  <li>모든 결과는 관계이지 원인이 아니다. 관계를 깊게 하면 약화가 줄어든다는 보장은 없고, 이는 제안한 시험으로 확인해야 한다.</li>
+</ul>
+
+<footer>
+  원팀 · 대응 절차 분석 결과 (16단계) · 모든 수치는 법인 집계값 · 함께 볼 문서: 1단계_마무리_2단계_계획_최종ver.html, 감소신호_판정기준_최종ver.html, 발표_도입부_분석방식_최종ver.html
+</footer>
+</div>
+<script>
+(function(){
+  var v=[485,471,446,423,423,410,446,425,461,382,393,524,447,464,429];
+  var m=["24.04","24.05","24.06","24.07","24.08","24.09","24.10","24.11","24.12","25.01","25.02","25.03","25.04","25.05","25.06"];
+  var g=document.getElementById("mbars"),NS="http://www.w3.org/2000/svg",L=40,W=670,bw=W/v.length;
+  v.forEach(function(x,i){
+    var h=x/600*150,xx=L+i*bw+6,y=170-h;
+    var p=document.createElementNS(NS,"path");
+    p.setAttribute("d","M"+xx+",170 V"+(y+3)+" q0,-3 3,-3 h"+(bw-18)+" q3,0 3,3 V170 Z");
+    p.setAttribute("fill","var(--blue)");
+    var t=document.createElementNS(NS,"title");t.textContent="20"+m[i].replace(".","년 ")+"월: "+x+"곳";p.appendChild(t);
+    g.appendChild(p);
+    if(i%2===0){var tx=document.createElementNS(NS,"text");tx.setAttribute("x",xx+(bw-12)/2);tx.setAttribute("y",188);tx.setAttribute("text-anchor","middle");tx.textContent=m[i];g.appendChild(tx);}
+  });
+})();
+</script>
+</body>
+</html>

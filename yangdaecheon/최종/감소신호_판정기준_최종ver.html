@@ -152,7 +152,8 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
 <h2><span class="n">03</span>약화 이후를 보는 방법</h2>
 <div class="tw"><table>
 <tr><th>구분</th><th>정의</th><th>쓰임</th></tr>
-<tr><td><b>7~12개월 뒤 입금 수준</b> <span class="tag o">주 잣대</span></td><td>약화 7~12개월 뒤 입금이 평소(약화 전 작년 같은 달)의 몇 %인지. 기준선을 긋지 않고 %를 그대로 쓴다</td><td>유형별 "방치하면 어떻게 되나"(예후). 2단계 첫 작업에서 산출. 2024.03~12 약화만 계산 가능</td></tr>
+<tr><td><b>7~12개월 뒤 입금 수준 (Y)</b> <span class="tag o">주 잣대</span></td><td><b>Y = 계절조정 입금 t+7~t+12 평균 ÷ 계절조정 before(t−14~t−12) 평균.</b> 계절조정 = 월 입금 ÷ 그 달 업종의 2023년 계절지수. 6개월 중 <b>4개월 이상</b> 관측된 달만 평균. 기준선을 긋지 않고 %를 그대로 쓴다</td><td>대응군별 "방치하면 어떻게 되나"(예후). <b>16단계 산출 완료</b>: 72% / 61% / 44% / 37%, 비교군 102%. 2024.03~12 약화(5,537건)만 계산 가능</td></tr>
+<tr><td><b>Y 민감도</b></td><td>① 6개월 모두 관측된 경우만 ② <b>Y24</b> = 원값 t+7~t+12 평균 ÷ 원값 t−17~t−12 평균(24개월 전 같은 달, 계절조정 없음)</td><td>둘 다 대응군 순서가 같았다. Y24는 전체적으로 7~17%p 높게 나온다(2년 추세가 섞임)</td></tr>
 <tr><td><b>관측중단</b></td><td>마지막 관측 달이 t~t+3 이고 데이터 끝(2025.12)까지 다시 나타나지 않음</td><td>따로 센다. <span class="tag a">'이탈'이라 부르지 않는다</span></td></tr>
 <tr><td><b>단기 반등</b> <span class="tag">참고</span></td><td>반등 창(t+1~t+3) 평균이 같은 달 작년(t−11~t−9) 평균의 70% 이상</td><td>설명용. 고객 구분이나 비교 기준에는 쓰지 않는다</td></tr>
 <tr><td><b>반등 없음</b> <span class="tag">참고</span></td><td>반등 창이 유효한데 70% 미만</td><td>설명용</td></tr>
@@ -160,10 +161,22 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
 </table></div>
 <div class="note warn"><b>왜 '회복' 판정을 버렸나.</b> 판정 방식(한 번 도달 / 종점 / 계속 유지), 시점(t+1~t+3 ~ t+4~t+6), 기준(60~90%)을 모두 바꿔 봤지만(13·14단계), 어느 조합도 6개월~1년 뒤 상태를 잘 맞히지 못했다(평가 점수 0.1대, 0이 우연·1이 완벽). 예를 들어 단기 반등 사건 중 6개월 뒤에도 평소의 70% 이상인 비율은 36.9%, 반등 없음은 25.5%다. 게다가 반등 여부는 약화 3개월 뒤에야 알 수 있어 조기 대응에 쓸 수 없다. 그래서 고객 구분은 <b>약화가 잡힌 순간 보이는 것</b>으로만 한다.</div>
 <div class="note"><b>약화 시점에 보이는 구분</b> (고객 구분·상품 제안에 쓰는 축)<br>
-· <b>입출금 방식</b>(15단계): 같은 창에서 요구불출금도 40% 이상 줄면 <b>동반 감소형</b>(65%), 아니면 <b>출금 유지형</b>(35%). 단기 반등 비율이 48.7% vs 63.3%로 크게 달랐다. 7~12개월 뒤 수준으로도 차이가 유지되는지 2단계 첫 작업에서 재확인한다.<br>
-· <b>강한 약화</b>: 잔액·채널·자동이체까지 같이 준 약화<br>
+· <b>입출금 방식</b>(15단계): 같은 창에서 요구불출금도 40% 이상 줄면 <b>동반 감소형</b>(약 2/3), 아니면 <b>출금 유지형</b>(약 1/3). 단기 반등 비율이 48.7% vs 63.3%로 크게 달랐고, <b>16단계에서 7~12개월 뒤 수준으로도 차이가 유지됨을 확인</b>했다(중앙값 차이 26%p, 23~30%p).<br>
+· <b>강한 약화</b>: 같은 창에서 요구불예금잔액 40% 이상 감소, 또는 이용채널수 3개월 평균 1개 이상 감소, 또는 자동이체 _ord 1 이상 감소<br>
+· <b>대응군</b> = 입출금 방식 × 강한 약화 = 4개 (출금 유지·약화 1,320 / 출금 유지·강한 1,397 / 동반·약화 2,084 / 동반·강한 3,370건)<br>
 · <b>변동성</b>: 입금이 원래 들쭉날쭉한 고객(4·5분위)은 결과를 따로 표시<br>
-· <b>금융 이용 유형</b>: 기획서 ②, 2단계에서 만든다</div>
+· <b>금융 이용 유형</b>(16단계, 보조 정보): 아래 표</div>
+
+<h3>금융 이용 유형 (16단계)</h3>
+<div class="tw"><table>
+<tr><th>순서</th><th>유형</th><th>조건 (before 창 t−14~t−12)</th><th>약화 중 비중</th></tr>
+<tr><td>1</td><td>외환 이용형</td><td>수출·수입 실적이 있는 달이 1개월 이상 (3개월 중 2개월 이상 관측)</td><td>9%</td></tr>
+<tr><td>2</td><td>시설자금대출 보유형</td><td>외환 없음 + 시설자금대출(일반·에너지·기타) 보유</td><td>30%</td></tr>
+<tr><td>3</td><td>운용상품 보유형</td><td>위 둘 없음 + 거치식·적립식·수익증권·퇴직연금 중 보유</td><td>15%</td></tr>
+<tr><td>4</td><td>기본형</td><td>위 셋 모두 없음</td><td>46%</td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--ink2)">보유 = 3개월 중 2개월 이상 관측되고, 그중 2개월 이상 좌수 _ord &gt; 0. 앞 순서 항목이 결측이면 판정불가로 둔다(거짓 기본형을 만들지 않음). 300법인 미만 유형은 합친다(이번에는 합친 유형 없음). 유형을 정할 때 쓴 상품은 그 유형의 상품 비교에서 뺀다(기본형의 운용성 예금·퇴직연금은 정의상 0%).</p>
+<div class="note"><b>변동성 창.</b> 상품 비교에서 맞추는 변동성은 <b>t−14~t−3</b>(약화 창 t−2~t 제외) 12개월의 계절조정 월 변화 MAD×1.4826, 유효 쌍 6개 이상. 11단계 캐시의 <code>volatility[:, t−2]</code>와 같다. 약화 창을 넣으면 약화 자체가 변동성으로 잡힌다.</div>
 
 <!-- 4 -->
 <h2><span class="n">04</span>무엇이 바뀌었나</h2>
@@ -192,7 +205,7 @@ footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-
 
 <!-- 6 -->
 <h2><span class="n">06</span>코드로 옮기면</h2>
-<p class="lead">원본 구현: <code>code/eda_signal_definition.py</code>(<code>Detector</code>, <code>episodes</code>), <code>code/eda_channel_and_type.py</code>(단기 반등 기준치·입출금 유형). 새로 짜지 말고 가져다 쓴다.</p>
+<p class="lead">원본 구현: <code>code/eda_signal_definition.py</code>(<code>Detector</code>, <code>episodes</code>), <code>code/eda_channel_and_type.py</code>(단기 반등 기준치·입출금 유형), <code>code/eda_response_design.py</code>(<code>adjusted_demand</code>, <code>prognosis_values</code>, 금융 이용 유형), <code>code/panel_cache.py</code>(공통 캐시). 새로 짜지 말고 가져다 쓴다.</p>
 <pre># pres   : (법인수, 36) bool  — 그 달 행이 있으면 True
 # demand : (법인수, 36) float64 — 요구불입금금액, 행이 없는 달은 NaN (0 아님)
 # 월 인덱스 0 = 2023.01, 35 = 2025.12
@@ -223,8 +236,14 @@ def after_signal(c, t):
         return "판정불가"
     return "단기 반등" if now &gt;= (0.70 - EPS) * base else "반등 없음"   # 참고용
 
-# 4) 주 잣대: 7~12개월 뒤 입금 수준 (2단계에서 산출, 2024.03~12 약화만)
-#    평소 = 약화 전 작년 같은 달. 달력월을 맞추거나 계절지수로 보정해서 비교한다.</pre>
+# 4) 주 잣대: 7~12개월 뒤 입금 수준 Y (16단계, 2024.03~12 약화만: t &lt;= 23)
+#    adj[c, m] = demand[c, m] / 계절지수2023[업종(c, m)][m % 12]   (행 없는 달은 NaN)
+def prognosis_y(c, t, min_obs=4):
+    fut  = adj[c, t + 7:t + 13]                           # t+7 ~ t+12, 6개월
+    base = adj[c, t - 14:t - 11]                          # before 창 그대로 (분모 고정)
+    if np.isfinite(fut).sum() &lt; min_obs or np.isfinite(base).sum() &lt; 2:
+        return np.nan                                     # 관측중단·미래 부족은 0으로 채우지 않고 따로 센다
+    return np.nanmean(fut) / np.nanmean(base)</pre>
 <div class="note">의사코드는 이해를 돕기 위한 요약이다. 실제 수치는 위 스크립트의 함수로 재현한다. 통계 비교는 에피소드 단위로 하고, 신뢰구간은 <b>법인 단위로 재표집</b>한다(같은 법인의 에피소드는 서로 독립이 아니다).</div>
 
 <!-- 7 -->
@@ -237,7 +256,7 @@ def after_signal(c, t):
 </ul>
 
 <footer>
-  원팀 · 관계 약화 판정 기준 인계 (개정판) · 모든 수치는 법인 집계값 · 근거: output/10_missing_mechanism, 11_signal_definition_20260928_145513_393326, 12_threshold_validation, 13_recovery_definition_20260928_165331_594725
+  원팀 · 관계 약화 판정 기준 인계 (개정판) · 모든 수치는 법인 집계값 · 근거: output/10_missing_mechanism, 11_signal_definition_20260928_145513_393326, 12_threshold_validation, 13_recovery_definition_20260928_165331_594725, 16_response_design
 </footer>
 </div>
 </body>
