@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1단계 마무리와 이후 계획</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --bg:#FAF9F5;--paper:#FFFFFF;--ink:#141413;--ink2:#3D3D3A;--muted:#87867F;--line:#D1CFC5;--soft:#F0EEE6;
+  --clay:#C8643F;--blue:#2F76B8;--olive:#5F7A45;--amber:#A87A12;--gray:#B9B6AB;
+  --sans:"Pretendard",system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+    --clay:#CC7049;--blue:#4088C8;--olive:#9DB57F;--amber:#D9AE4A;--gray:#6B6962;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+  --clay:#CC7049;--blue:#4088C8;--olive:#9DB57F;--amber:#D9AE4A;--gray:#6B6962;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.75}
+.wrap{max-width:940px;margin:0 auto;padding:36px 16px 80px}
+header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:26px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+h1{font-size:27px;line-height:1.3;margin-bottom:6px}
+.sub{color:var(--ink2)}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink)}
+h2{font-size:21px;margin:48px 0 10px;display:flex;gap:10px;align-items:baseline}
+h2 .n{font-family:var(--mono);font-size:12px;color:var(--clay);border:1.5px solid var(--clay);border-radius:6px;padding:0 7px}
+h3{font-size:16.5px;margin:24px 0 8px}
+p{margin-bottom:10px}
+.lead{color:var(--ink2);margin-bottom:14px}
+.box{background:var(--paper);border:1.5px solid var(--line);border-left:6px solid var(--olive);border-radius:10px;padding:18px 20px;margin:10px 0 18px}
+.box .big{font-size:19px;font-weight:700;margin-bottom:8px}
+.box ul,.box ol{padding-left:22px}
+.box li{margin:5px 0}
+.note{font-size:14px;color:var(--ink2);background:var(--soft);border-radius:8px;padding:11px 15px;margin:12px 0}
+.warn{border-left:4px solid var(--amber)}
+.easy{font-size:14px;background:var(--paper);border:1.5px dashed var(--line);border-radius:8px;padding:10px 14px;margin:10px 0}
+.easy b.k{color:var(--clay)}
+.tw{overflow-x:auto;margin:10px 0 16px}
+table{width:100%;border-collapse:collapse;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;overflow:hidden;font-size:14.5px}
+th{background:var(--soft);text-align:left;padding:9px 12px;border-bottom:1.5px solid var(--line);font-weight:700;white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--soft);vertical-align:top}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+td.old{color:var(--muted)}
+.tag{display:inline-block;font-size:12px;padding:0 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+.tag.done{color:var(--olive)}.tag.next{color:var(--clay)}.tag.later{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:14px 16px}
+.card .ct{font-weight:700;margin-bottom:4px}
+.card .small{font-size:14px;color:var(--ink2)}
+.facts{counter-reset:f;list-style:none}
+.facts li{position:relative;padding:12px 14px 12px 50px;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;margin:10px 0}
+.facts li::before{counter-increment:f;content:counter(f);position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:50%;background:var(--clay);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.facts li b.t{display:block;font-size:15.5px;margin-bottom:2px}
+.facts li span{font-size:14px;color:var(--ink2)}
+.stage{background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+.stage.now{border:2px solid var(--clay)}
+.stage .hd{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px}
+.stage .hd b{font-size:17px}
+.stage .row{display:grid;grid-template-columns:96px 1fr;gap:8px;font-size:14.5px;margin-top:6px}
+.stage .row .k{color:var(--muted);font-weight:700}
+.chart{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:14px 14px 8px;margin:12px 0}
+.chart .ct{font-weight:700;font-size:14.5px;margin-bottom:6px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--sans)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);margin-top:6px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:5px}
+dl.gloss{display:grid;grid-template-columns:150px 1fr;gap:0;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
+dl.gloss dt{font-weight:700;padding:10px 14px;border-bottom:1px solid var(--soft);background:var(--soft)}
+dl.gloss dd{padding:10px 14px;border-bottom:1px solid var(--soft);font-size:14.5px;color:var(--ink2)}
+footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-size:12px;color:var(--muted)}
+@media(max-width:720px){.grid2{grid-template-columns:1fr}h1{font-size:22px}.stage .row{grid-template-columns:1fr}dl.gloss{grid-template-columns:1fr}dl.gloss dt{border-bottom:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">원팀 · 진행 정리 · 2026.09.29</div>
+  <h1>1단계는 이렇게 마무리됐고, 이제 이렇게 갑니다</h1>
+  <p class="sub">강우영 전처리 기획서의 흐름(① 이탈 상태 정의 → ② 금융 집단 → ③ 집단 비교 → ④ 상품 보유 격차 → ⑤ 상품 제안)을 기준으로 정리했습니다.</p>
+  <div class="meta">
+    <span>데이터 <b>법인 15,473개 × 36개월 (2023.01~2025.12)</b></span>
+    <span>근거 <b>output/10~15 단계 산출물</b></span>
+  </div>
+</header>
+
+<div class="box">
+  <div class="big">한 줄 요약</div>
+  <p style="margin:0">1단계에서는 <b>"누가 위험한 고객인가"</b>를 정했습니다. 답은 <b>"작년 이맘때보다 입금이 40% 이상 줄어든 고객"</b>이고, 이런 일이 <b>5,941개 법인에서 8,176번</b> 있었습니다. 2단계부터는 이 고객들을 <b>금융 이용 방식별로 묶고</b>, <b>다시 회복한 고객과 그렇지 못한 고객이 어떤 상품을 다르게 갖고 있었는지</b> 비교해서 상품을 제안합니다.</p>
+</div>
+
+<!-- 1 -->
+<h2><span class="n">01</span>1단계에서 풀려던 질문</h2>
+<p class="lead">기획서 1단계의 목표는 법인마다 "정상 / 이탈 잠재 / 완전 이탈" 이름표를 붙이는 것이었습니다. 막상 해 보니 이름표를 붙이기 전에 답해야 할 질문이 여섯 개 있었습니다.</p>
+<div class="tw"><table>
+<tr><th>질문</th><th>처음 생각</th><th>최종 답</th></tr>
+<tr><td>기록이 끊기면 떠난 건가?</td><td class="old">3개월 기록이 없으면 완전 이탈</td><td><b>알 수 없다.</b> 기록이 끊긴 법인의 97.5%가 대출을 그대로 갖고 있었다. '관측중단'으로 따로 센다</td></tr>
+<tr><td>무엇이 줄면 위험한가?</td><td class="old">요구불입금</td><td><b>요구불입금 그대로.</b> 입금이 줄면 예금 잔액과 이용 채널도 같이 줄어, 실제로 관계가 약해진다는 게 확인됐다</td></tr>
+<tr><td>얼마나 줄어야 하나?</td><td class="old">30%</td><td><b>40%.</b> 30%는 금방 되돌아오는 경우가 많았다</td></tr>
+<tr><td>무엇과 비교하나?</td><td class="old">작년 같은 시기</td><td><b>작년 같은 3개월 그대로.</b> 이태우 님이 제안한 '계절조정 후 직전 비교'도 시험했지만 신호가 더 쉽게 사라졌다</td></tr>
+<tr><td>한 법인을 몇 번 세나?</td><td class="old">법인당 한 번 (첫 판정)</td><td><b>약화될 때마다 한 번씩(사건 단위).</b> 같은 법인도 약화될 때마다 결과가 달랐다</td></tr>
+<tr><td>회복은 어떻게 판단하나?</td><td class="old">(정하지 않음)</td><td><b>신호 직후 3개월 입금이 작년 같은 달의 70% 이상</b>이면 회복</td></tr>
+</table></div>
+<div class="easy"><b class="k">왜 "작년 같은 시기"와 비교하나요?</b> 법인 입금은 12월 결산기처럼 특정 달에 몰립니다. 12월과 3월을 바로 비교하면, 아무 일 없어도 3월이 "줄어든" 것처럼 보입니다. 작년 3월과 올해 3월을 비교하면 이런 착시가 사라집니다.</div>
+
+<!-- 2 -->
+<h2><span class="n">02</span>1단계의 결과: 누가, 얼마나</h2>
+<div class="chart">
+  <div class="ct">관계 약화 8,176건은 이렇게 나뉩니다</div>
+  <svg viewBox="0 0 720 96" role="img" aria-label="관계 약화 8,176건의 결과 구성: 회복 3,844, 지속저조 3,307, 관측중단 520, 판정불가 505">
+    <g font-size="13">
+      <rect x="0" y="10" width="337" height="40" rx="4" fill="var(--olive)"/>
+      <rect x="339" y="10" width="290" height="40" fill="var(--clay)"/>
+      <rect x="631" y="10" width="44" height="40" fill="var(--gray)"/>
+      <rect x="677" y="10" width="43" height="40" rx="4" fill="var(--soft)" stroke="var(--line)"/>
+      <text x="10" y="35" fill="#fff" font-weight="700">회복 3,844 (47%)</text>
+      <text x="349" y="35" fill="#fff" font-weight="700">지속저조 3,307 (40%)</text>
+      <text x="631" y="72" fill="var(--ink2)">관측중단 520</text>
+      <text x="720" y="90" text-anchor="end" fill="var(--ink2)">판정불가 505</text>
+    </g>
+  </svg>
+  <div class="legend"><span><i style="background:var(--olive)"></i>회복: 3개월 안에 작년 수준의 70% 이상으로</span><span><i style="background:var(--clay)"></i>지속저조: 기록은 있는데 계속 낮음</span><span><i style="background:var(--gray)"></i>관측중단: 기록이 끊김(이탈로 보지 않음)</span><span><i style="background:var(--soft);border:1px solid var(--line)"></i>판정불가: 비교할 기록 부족</span></div>
+</div>
+<p>대상 기간은 2024년 3월~2025년 6월(16개월)이고, 같은 법인이 여러 번 약화될 수 있어서 <b>5,941개 법인에서 8,176건</b>이 나왔습니다. 2단계부터의 비교는 주로 <b>회복(3,844건) vs 지속저조(3,307건)</b>로 합니다.</p>
+
+<!-- 3 -->
+<h2><span class="n">03</span>1단계에서 알게 된 사실 6가지</h2>
+<ol class="facts">
+  <li><b class="t">기록이 끊긴 것만으로는 '떠났다'고 할 수 없다</b><span>기록이 끊긴 법인 5,474개 중 97.5%가 대출을 그대로 들고 있었다. 1~2개월짜리 빈 달은 매 분기말에 몰려, 고객 행동이 아니라 데이터가 만들어지는 방식의 흔적으로 보인다.</span></li>
+  <li><b class="t">입금 40% 감소는 '진짜 관계 약화'다</b><span>비슷한 법인과 비교하면 예금 잔액과 이용 채널도 뚜렷하게 같이 줄었다. 업종 전체 경기 탓도 아니고(업종 평균을 빼도 85% 이상 그대로), 작은 법인에만 몰리지도 않았다.</span></li>
+  <li><b class="t">한 번 크게 줄면 대부분 오래 간다</b><span>6개월 안에 반등한 경우도 1년 뒤에는 평소의 절반 수준(중앙값 51%)에 머물렀다. 기다리면 돌아온다고 보기 어렵고, 잡힌 즉시 대응해야 한다.</span></li>
+  <li><b class="t">회복을 가장 크게 가르는 건 '약해지는 방식'이다</b><span>입금은 줄었지만 출금은 그대로인 <b>출금 유지형</b>은 63%가 회복했고, 입출금이 같이 빠진 <b>동반 감소형</b>은 49%였다.</span></li>
+  <li><b class="t">대출은 남기고 돈이 오가는 통로만 옮긴다</b><span>약화 전후로 대출잔액은 거의 변하지 않았다. 입금이 먼저, 훨씬 크게 빠진다.</span></li>
+  <li><b class="t">'평소 모습'만으로는 회복 여부를 가려내기 어렵다</b><span>약화 전의 규모·업종·채널 이용으로 회복 여부를 맞히는 정확도는 55%로, 동전 던지기(50%)보다 조금 나은 수준이다. 그래서 2단계부터는 <b>상품 보유</b>에서 차이를 찾는다.</span></li>
+</ol>
+
+<!-- 4 -->
+<h2><span class="n">04</span>숫자를 어떻게 믿을 수 있게 만들었나</h2>
+<p class="lead">1단계가 오래 걸린 이유는 기준 하나하나를 "그냥 정하지 않고" 데이터로 확인했기 때문입니다. 2단계 이후에도 같은 원칙을 씁니다.</p>
+<div class="grid2">
+  <div class="card"><div class="ct">① 기준은 결과를 보기 전에 정한다</div><p class="small">결과를 보고 나서 기준을 정하면, 원하는 결론에 맞춰 기준을 고르게 된다. 그래서 "몇 배 이상이면 통과" 같은 규칙을 먼저 적어 두고 돌렸다.</p></div>
+  <div class="card"><div class="ct">② 항상 '비교군'과 비교한다</div><p class="small">"약화 고객의 30%가 6개월 뒤에도 낮다"는 숫자만으로는 많은지 적은지 알 수 없다. 같은 달·같은 규모·같은 업종의 멀쩡한 고객과 나란히 놓고 본다.</p></div>
+  <div class="card"><div class="ct">③ 숫자 하나 대신 범위로 말한다</div><p class="small">"2.20배"가 아니라 "2.10~2.29배(신뢰구간)"로 본다. 범위가 기준선에 걸치면 "경계"로 판정하고, 우연히 통과한 것처럼 말하지 않는다.</p></div>
+  <div class="card"><div class="ct">④ 규칙의 빈틈은 숨기지 않는다</div><p class="small">미리 정한 규칙이 이상한 값을 고른 경우가 네 번 있었다. 그대로 따르지 않고, 무엇을 왜 바꿨는지 기록했다(보고서 11-13 08장).</p></div>
+</div>
+
+<!-- 5 -->
+<h2><span class="n">05</span>기획서와 달라진 점 (2단계 전에 팀이 맞춰야 할 것)</h2>
+<div class="tw"><table>
+<tr><th>기획서</th><th>바뀐 내용</th><th>2단계 이후에 미치는 영향</th></tr>
+<tr><td>정상 / 이탈 잠재 / 완전 이탈</td><td>관계 약화 사건 → 회복 / 지속저조 / 관측중단 / 판정불가</td><td>비교의 중심이 "정상 vs 이탈 잠재"에서 <b>"회복 vs 지속저조"</b>로 바뀜</td></tr>
+<tr><td>입금 YoY −30%</td><td>−40%</td><td>대상이 조금 줄지만 더 확실한 약화만 남음</td></tr>
+<tr><td>법인 1행 (첫 판정월)</td><td>약화 사건 1행 (같은 법인 여러 번 가능)</td><td>통계를 낼 때 같은 법인을 묶어서 오차를 계산해야 함</td></tr>
+<tr><td>완전 이탈 = 3개월 연속 기록 없음</td><td>관측중단 (이탈로 해석하지 않음)</td><td>"이탈률"이라는 표현을 쓰지 않음</td></tr>
+<tr><td>빈 달 = 36개월 달력에 "관측 없음" 표시</td><td>그대로. 0으로 채우지 않고, 3개월 중 2개월 관측이면 인정</td><td>변화 없음</td></tr>
+<tr><td>(없음)</td><td>입출금 유형(출금 유지형 / 동반 감소형), 강한 약화 표시</td><td>2단계 이후 모든 비교를 이 유형별로 나눠서 봄</td></tr>
+</table></div>
+
+<!-- 6 -->
+<h2><span class="n">06</span>2단계 이후 계획</h2>
+<p class="lead">기획서의 순서를 그대로 따르되, 1단계에서 배운 것을 반영합니다. 굵은 테두리가 바로 다음에 할 일입니다.</p>
+
+<div class="stage now">
+  <div class="hd"><b>② 금융 이용 유형으로 묶기</b><span class="tag next">다음 할 일</span></div>
+  <div class="row"><span class="k">왜</span><span>"어떤 회사인가(업종)"가 아니라 "은행을 어떻게 쓰는가"로 나눠야 맞춤 상품을 말할 수 있다.</span></div>
+  <div class="row"><span class="k">어떻게</span><span>기획서의 규칙(복합형 · 수출입형 · 설비투자형 · 운전자금형 · 여유자금형 · 결제전용형)으로, <b>약화 직전 시점의 보유 상품</b>을 보고 나눈다.</span></div>
+  <div class="row"><span class="k">먼저 확인</span><span>전체 법인의 약 98%가 대출을 갖고 있다(10단계). 규칙대로 하면 대부분 '운전자금형'으로 몰릴 수 있다. <b>집단별 크기부터 보고 규칙을 조정</b>한다. 예를 들어 대출 규모나 종류로 한 번 더 나누는 방식이다.</span></div>
+  <div class="row"><span class="k">결과물</span><span>집단별 법인·약화 사건 수, 집단별 회복률</span></div>
+</div>
+
+<div class="stage">
+  <div class="hd"><b>③ 집단별 비교</b><span class="tag later">②와 함께</span></div>
+  <div class="row"><span class="k">왜</span><span>어떤 유형의 고객이 약화되기 쉽고, 약화된 뒤 잘 회복하지 못하는지 보기 위해서.</span></div>
+  <div class="row"><span class="k">어떻게</span><span>금융 이용 유형 × 입출금 유형 × 결과(회복/지속저조)를 교차표로 만든다. 숫자가 커서 작은 차이도 "통계적으로 유의"하게 나오므로, <b>차이의 크기(%p)와 신뢰구간</b>으로 판단한다.</span></div>
+  <div class="row"><span class="k">결과물</span><span>"○○형 고객은 약화 뒤 회복률이 △△%로 가장 낮다" 같은 우선순위</span></div>
+</div>
+
+<div class="stage">
+  <div class="hd"><b>④ 상품 보유 격차</b><span class="tag later">핵심 분석</span></div>
+  <div class="row"><span class="k">왜</span><span>제안할 상품의 근거를 찾는 단계. "비슷한 고객 중 회복한 쪽은 갖고 있고, 못 한 쪽은 안 갖고 있던 상품"을 찾는다.</span></div>
+  <div class="row"><span class="k">어떻게</span><span><b>같은 금융 이용 유형 · 같은 입출금 유형 안에서</b> 회복 vs 지속저조의 상품 보유율을 비교한다. 유형을 섞으면 유형 차이가 상품 차이처럼 보이기 때문이다. 보유 여부는 <b>약화 전 시점</b>의 계좌 수로 판단한다(결과를 보고 가입한 상품이 섞이지 않도록).</span></div>
+  <div class="row"><span class="k">결과물</span><span>유형별 "격차가 큰 상품" 순위표. 예: "운전자금형 · 동반 감소형에서 적금 보유율이 회복군 40% vs 지속저조군 15%"</span></div>
+  <div class="row"><span class="k">주의</span><span>격차는 "관계"이지 "원인"이 아니다. "적금이 있으면 회복한다"가 아니라 "적금 있는 고객이 더 많이 회복했다"로 말한다.</span></div>
+</div>
+
+<div class="stage">
+  <div class="hd"><b>⑤ 상품 제안</b><span class="tag later">마무리</span></div>
+  <div class="row"><span class="k">어떻게</span><span>금융 이용 유형 × 입출금 유형 × 약화 강도별로 제안을 정리한다. 1단계에서 이미 보이는 방향은 두 가지다.</span></div>
+  <div class="row"><span class="k">방향 1</span><span><b>출금 유지형</b>: 아직 우리 계좌로 돈을 쓰는 중이다. 운전자금·유동성 지원으로 붙잡는다(회복 가능성 63%).</span></div>
+  <div class="row"><span class="k">방향 2</span><span><b>동반 감소형</b>: 돈이 오가는 통로 자체가 옮겨가는 중이다. 대출은 남아 있으므로, <b>대출 거래와 연계한 주거래 조건</b>(금리·수수료 우대 등)으로 통로를 되찾는다.</span></div>
+  <div class="row"><span class="k">결과물</span><span>제안 매트릭스, 지역(시군구)별 대상 규모(집계만), 발표자료</span></div>
+</div>
+
+<h3>그 밖에 남은 일</h3>
+<div class="tw"><table>
+<tr><th>일</th><th>언제</th></tr>
+<tr><td>핵심 메시지 문장을 새 숫자로 다시 쓰기</td><td>②·③ 결과가 나오면</td></tr>
+<tr><td>변동성이 큰 고객(입금이 원래 들쭉날쭉한 상위 40%)은 결과를 따로 표시</td><td>모든 단계에서</td></tr>
+<tr><td>공공데이터(기준금리·업종 경기) 결합: 시기 효과는 작게 나와(2.4%p) 우선순위 낮음</td><td>여유가 있으면</td></tr>
+<tr><td>발표자료: 도입부 6장은 만들어 둠(report/발표_도입부_분석방식.html)</td><td>⑤ 뒤에 본론 추가</td></tr>
+</table></div>
+
+<!-- 7 -->
+<h2><span class="n">07</span>용어 풀이</h2>
+<dl class="gloss">
+  <dt>관계 약화 (사건)</dt><dd>작년 같은 3개월보다 요구불입금이 40% 이상 줄어든 순간. 같은 법인도 여러 번 있을 수 있어 "사건(에피소드)" 단위로 센다.</dd>
+  <dt>요구불입금</dt><dd>입출금이 자유로운 통장으로 들어온 돈. 매출 대금이 들어오는 통로라 거래 관계를 가장 잘 보여준다.</dd>
+  <dt>비교군</dt><dd>같은 달·같은 규모·같은 업종이면서 약화 신호가 없는 법인. "원래 이 정도는 출렁이는지"를 알기 위한 기준.</dd>
+  <dt>중앙값</dt><dd>한 줄로 세웠을 때 가운데 값. 몇몇 초대형 법인이 평균을 끌어올리는 것을 막기 위해 평균 대신 쓴다.</dd>
+  <dt>신뢰구간</dt><dd>표본이 달랐다면 결과가 이 정도 범위에서 움직였을 것이라는 폭. "2.20배 (2.10~2.29)"처럼 쓴다.</dd>
+  <dt>지속 배수</dt><dd>약화가 잡힌 고객이 6개월 뒤에도 약화 상태일 가능성이 비교군보다 몇 배인지. 2배 이상이면 "금방 사라지는 잡음이 아니다"로 봤다.</dd>
+  <dt>표준화 차이 (SMD)</dt><dd>두 집단의 차이를 "흩어진 정도" 기준으로 잰 크기. 0.2 이상이면 눈에 띄는 차이로 본다. 단위가 달라도 비교할 수 있다.</dd>
+  <dt>정확도 (AUC)</dt><dd>어떤 정보로 두 집단을 얼마나 잘 가려내는지. 0.5는 동전 던지기, 1은 완벽. 이번 회복 예측은 0.55였다.</dd>
+  <dt>계절 효과</dt><dd>12월 결산기처럼 매년 같은 달에 반복되는 움직임. 작년 같은 달과 비교해서 제거한다.</dd>
+  <dt>관측중단</dt><dd>어느 달 이후 데이터에 기록이 없는 경우. 떠났는지 알 수 없어 '이탈'이라 부르지 않는다.</dd>
+  <dt>상관 vs 원인</dt><dd>"함께 나타난다"와 "그것 때문이다"는 다르다. 이 분석은 전자만 보여준다.</dd>
+</dl>
+
+<footer>
+  원팀 · 1단계 마무리와 이후 계획 · 모든 수치는 법인 집계값 · 자세한 근거: report/10_행없음_원인검증.html, report/11-13_분석방식_결정.html, report/감소신호_판정기준_인계.html, AGENTS.md 4~8장
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>관계 약화 판정 기준</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --bg:#FAF9F5;--paper:#FFFFFF;--ink:#141413;--ink2:#3D3D3A;--muted:#87867F;--line:#D1CFC5;--soft:#F0EEE6;
+  --clay:#C8643F;--blue:#2F76B8;--olive:#5F7A45;--amber:#A87A12;--codebg:#F4F2EC;
+  --sans:"Pretendard",system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+    --clay:#E08A68;--blue:#5B9BD5;--olive:#9DB57F;--amber:#D9AE4A;--codebg:#2A2A28;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+  --clay:#E08A68;--blue:#5B9BD5;--olive:#9DB57F;--amber:#D9AE4A;--codebg:#2A2A28;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7}
+.wrap{max-width:960px;margin:0 auto;padding:36px 16px 80px}
+header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:24px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+h1{font-size:26px;line-height:1.3;margin-bottom:6px}
+.sub{color:var(--ink2)}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink)}
+h2{font-size:20px;margin:42px 0 8px;display:flex;gap:10px;align-items:baseline}
+h2 .n{font-family:var(--mono);font-size:12px;color:var(--clay);border:1.5px solid var(--clay);border-radius:6px;padding:0 7px}
+h3{font-size:16px;margin:20px 0 6px}
+p{margin-bottom:10px}
+.lead{color:var(--ink2);margin-bottom:14px}
+.answer{background:var(--paper);border:1.5px solid var(--line);border-left:6px solid var(--blue);border-radius:10px;padding:18px 20px;margin:8px 0 20px}
+.answer .big{font-size:19px;font-weight:700;margin-bottom:8px}
+.answer ul{padding-left:20px}
+.answer li{margin:4px 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);border-radius:10px;overflow:hidden;margin:16px 0}
+.kpi{background:var(--paper);padding:14px 10px;text-align:center}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1.2}
+.kpi .s{font-size:12px;color:var(--muted)}
+.note{font-size:13px;color:var(--ink2);background:var(--soft);border-radius:8px;padding:10px 14px;margin:10px 0}
+.warn{border-left:4px solid var(--amber)}
+.tag{display:inline-block;font-size:12px;padding:0 8px;border-radius:999px;white-space:nowrap;border:1px solid}
+.tag.a{color:var(--amber)}.tag.o{color:var(--olive)}.tag.c{color:var(--clay)}
+.tw{overflow-x:auto;margin:10px 0 14px}
+table{width:100%;border-collapse:collapse;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+th{background:var(--soft);text-align:left;padding:9px 12px;border-bottom:1.5px solid var(--line);white-space:nowrap;font-weight:700}
+td{padding:9px 12px;border-bottom:1px solid var(--soft);vertical-align:top}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+td.old{color:var(--muted);text-decoration:line-through}
+code{font-family:var(--mono);font-size:13px;background:var(--codebg);padding:1px 5px;border-radius:4px}
+pre{font-family:var(--mono);font-size:12.5px;line-height:1.6;background:var(--codebg);border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;margin:10px 0 14px}
+.diagram{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px;margin:12px 0;overflow-x:auto}
+svg{display:block;width:100%;height:auto;min-width:640px}
+svg text{font-family:var(--sans)}
+.check{list-style:none}
+.check li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid var(--soft)}
+.check li::before{content:"☐";position:absolute;left:4px;top:9px;color:var(--clay);font-size:17px}
+footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-size:12px;color:var(--muted)}
+@media(max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">원팀 · 인계 문서 · 관계 약화 · 회복 판정 기준 · 개정판</div>
+  <h1>관계 약화를 잡는 기준과 회복을 판정하는 기준</h1>
+  <p class="sub">10~13단계 검증으로 바뀐 정의 전체. 팀원이 같은 기준으로 계산할 수 있도록 정리했다.</p>
+  <div class="meta">
+    <span>작성 <b>양대천 · 2026.09.28 개정</b></span>
+    <span>근거 <b>output/10 ~ 15 단계 산출물</b></span><span>개정 <b>2026.09.29 (회복 시점·기준치)</b></span>
+  </div>
+</header>
+
+<div class="answer">
+  <div class="big">분석 대상은 5,941개 법인의 관계 약화 8,176건이다.</div>
+  <ul>
+    <li>단위가 <b>법인이 아니라 '감소 에피소드'</b>로 바뀌었다. 한 법인이 여러 번 약화될 수 있고, 매번 결과가 다르기 때문이다.</li>
+    <li>기준은 <b>작년 같은 3개월 대비 입금 40% 이상 감소</b>다(예전 30%).</li>
+    <li>회복은 <b>신호 직후 3개월(t+1~t+3) 입금이 작년 같은 달의 70% 이상</b>인 경우다(예전: 6개월 안에 한 번이라도 도달. 14단계에서 판정 시점을 t+4~t+6 → t+1~t+3으로 앞당김).</li>
+    <li>예전 숫자(5,997 / 2,700 / 2,959 / 338, 8,335 코호트)는 <b>폐기된 정의의 수치</b>다. 쓰지 않는다.</li>
+  </ul>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="l">관계 약화 에피소드</div><div class="v">8,176</div><div class="s">법인 5,941개</div></div>
+  <div class="kpi"><div class="l">회복</div><div class="v">3,844</div><div class="s">에피소드 · 법인 3,119</div></div>
+  <div class="kpi"><div class="l">지속저조</div><div class="v">3,307</div><div class="s">에피소드 · 법인 3,005</div></div>
+  <div class="kpi"><div class="l">관측중단 · 판정불가</div><div class="v">520 · 505</div><div class="s">비교에서 제외</div></div>
+</div>
+
+<!-- 1 -->
+<h2><span class="n">01</span>한눈에 보는 판정 흐름</h2>
+<p class="lead">한 법인을 기준월 <b>t</b>에서 본다. 올해 최근 3개월을 작년 같은 3개월과 비교해 약화를 잡고, 바로 다음 3개월을 다시 <b>그 달의 작년</b>과 비교해 회복을 판정한다. 두 비교 모두 같은 달끼리 비교하므로 계절 영향이 빠진다.</p>
+<div class="diagram">
+<svg viewBox="0 0 900 230" role="img" aria-label="관계 약화 신호와 회복 판정 창 타임라인">
+  <g font-size="12">
+    <line x1="30" y1="150" x2="880" y2="150" stroke="var(--muted)" stroke-width="1.5"/>
+    <!-- 21칸 폭 40.5: t-14 = x30 -->
+    <rect x="30" y="102" width="121" height="36" rx="6" fill="var(--blue)" opacity=".18" stroke="var(--blue)" stroke-width="1.5"/>
+    <text x="90" y="125" text-anchor="middle" fill="var(--ink)" font-weight="700">before</text>
+    <text x="90" y="90" text-anchor="middle" fill="var(--muted)">t−14~t−12</text>
+    <rect x="152" y="102" width="121" height="36" rx="6" fill="var(--olive)" opacity=".12" stroke="var(--olive)" stroke-dasharray="4 3"/>
+    <text x="212" y="125" text-anchor="middle" fill="var(--ink2)">작년 같은 달</text>
+    <text x="212" y="90" text-anchor="middle" fill="var(--muted)">t−11~t−9</text>
+    <rect x="516" y="102" width="121" height="36" rx="6" fill="var(--clay)" opacity=".2" stroke="var(--clay)" stroke-width="1.5"/>
+    <text x="576" y="125" text-anchor="middle" fill="var(--ink)" font-weight="700">after</text>
+    <text x="576" y="90" text-anchor="middle" fill="var(--muted)">t−2~t</text>
+    <rect x="638" y="102" width="121" height="36" rx="6" fill="var(--olive)" opacity=".2" stroke="var(--olive)" stroke-width="1.5"/>
+    <text x="698" y="125" text-anchor="middle" fill="var(--ink)" font-weight="700">회복 창</text>
+    <text x="698" y="90" text-anchor="middle" fill="var(--muted)">t+1~t+3</text>
+    <!-- 화살표 -->
+    <path d="M90 100 C 90 50, 576 50, 576 100" fill="none" stroke="var(--clay)" stroke-width="1.5"/>
+    <text x="333" y="46" text-anchor="middle" fill="var(--clay)" font-weight="700">① 약화: after 가 before 보다 40% 이상 적음</text>
+    <path d="M212 140 C 212 200, 698 200, 698 140" fill="none" stroke="var(--olive)" stroke-width="1.5"/>
+    <text x="455" y="220" text-anchor="middle" fill="var(--olive)" font-weight="700">② 회복: 회복 창이 작년 같은 달의 70% 이상</text>
+    <text x="30" y="172" fill="var(--muted)">t−14</text>
+    <text x="637" y="172" text-anchor="middle" fill="var(--ink)" font-weight="700">t</text>
+    <text x="880" y="172" text-anchor="end" fill="var(--muted)">t+6</text>
+  </g>
+</svg>
+</div>
+
+<!-- 2 -->
+<h2><span class="n">02</span>관계 약화 기준</h2>
+<div class="tw"><table>
+<tr><th>항목</th><th>기준</th><th>근거 (단계)</th></tr>
+<tr><td><b>비교 지표</b></td><td>요구불입금금액 (백만원)</td><td>입금이 줄면 요구불예금잔액과 이용채널수도 같이 준다 (12단계)</td></tr>
+<tr><td><b>after / before</b></td><td>t−2~t / t−14~t−12 의 3개월 평균 (작년 같은 3개월)</td><td>바로 앞 3개월과 비교하면 계절 때문에 가짜 감소가 1.65배 몰림 (6단계)</td></tr>
+<tr><td><b>창 길이</b></td><td>3개월</td><td>2개월과 탐지 시점이 같고(4개월 선행) 신호가 더 오래 유지됨 (11단계)</td></tr>
+<tr><td><b>빈 달</b></td><td>3개월 중 2개월 이상 관측되면 관측된 달의 평균</td><td>연속 3개월에는 항상 분기말이 끼는데, 분기말에 행 누락이 몰림 (10단계)</td></tr>
+<tr><td><b>규모 하한</b></td><td>before ≥ 10백만원</td><td>작은 값은 반올림 한 칸에 −100%가 됨</td></tr>
+<tr><td><b>감소 기준</b></td><td>(before − after) ÷ before ≥ <b>0.40</b></td><td>"6개월 뒤에도 감소 상태일 가능성이 비교 법인의 2배"를 확실히 넘는 가장 낮은 값 (12단계)</td></tr>
+<tr><td><b>경계 처리</b></td><td>float64, 정확히 40% · 정확히 10백만원은 <b>포함</b> (허용오차 1e−9)</td><td>금액이 이산값이라 경계 동점이 흔함 (11단계)</td></tr>
+<tr><td><b>기준 방식</b></td><td>모든 법인에 같은 기준</td><td>업종·변동성으로 보정해도 나아지지 않음 (11단계)</td></tr>
+<tr><td><b>탐지 기간</b></td><td>t = 2024.03 ~ 2025.06</td><td>앞은 작년 비교, 뒤는 관측중단 판정(t+3 이후 3개월 부재 확인) 필요</td></tr>
+<tr><td><b>에피소드</b></td><td>신호 달 간격 2개월 이하는 한 묶음. 판정 시점 = 묶음의 첫 달</td><td>같은 법인도 에피소드마다 결과가 다름 (kappa 0.07, 11단계)</td></tr>
+<tr><td><b>강한 약화</b></td><td>약화 + 같은 창에서 요구불예금잔액 40%↓ 또는 이용채널수 1개↓ 또는 자동이체 코드 1↓</td><td>상품 제안을 단계별로 나누기 위한 표시 (12단계)</td></tr>
+</table></div>
+
+<!-- 3 -->
+<h2><span class="n">03</span>결과 판정 기준</h2>
+<div class="tw"><table>
+<tr><th>순서</th><th>결과</th><th>조건</th></tr>
+<tr><td>1</td><td><b>관측중단</b></td><td>마지막 관측 달이 t~t+3 이고 데이터 끝(2025.12)까지 다시 나타나지 않음. <span class="tag a">'이탈'이라 부르지 않는다</span></td></tr>
+<tr><td>2</td><td><b>회복</b></td><td>회복 창(t+1~t+3) 평균이 <b>같은 달 작년(t−11~t−9) 평균의 70% 이상</b></td></tr>
+<tr><td>3</td><td><b>지속저조</b></td><td>회복 창이 유효한데 70% 미만</td></tr>
+<tr><td>4</td><td><b>판정불가</b></td><td>회복 창 또는 비교 창이 무효 (3개월 중 관측 2개월 미만)</td></tr>
+</table></div>
+<div class="note">보조 3분류: <b>유지 회복</b>(처음 70%에 닿은 뒤 계속 유지) / <b>일시 반등</b>(한 번 닿았다가 다시 떨어짐) / <b>지속저조</b>. 1년 뒤 상태가 셋 다 구분된다(13단계). 보고서에서 함께 쓴다.</div>
+<div class="note warn"><b>70%와 판정 시점은 데이터가 고른 "정답"이 아니다.</b> 70%는 60~90%가 신뢰구간 안에서 모두 동률이라 유지했다. 판정 시점도 t+1~t+3부터 t+4~t+6까지 6개월 뒤를 맞히는 힘이 모두 비슷해서(평가 점수 0.129~0.139), 미리 정한 규칙대로 가장 이른 시점을 골랐다(14단계). 어느 시점이든 회복 판정은 이후 상태를 약하게만 예측한다. 회복이라고 해서 관계가 정상화됐다는 뜻은 아니다.</div>
+<div class="note"><b>입출금 유형</b>(15단계): 같은 창에서 요구불출금도 40% 이상 줄면 <b>동반 감소형</b>(65%), 아니면 <b>출금 유지형</b>(35%). 회복률 48.7% vs 63.3%로 가장 크게 갈린다. 결과 비교와 상품 제안에서 함께 쓴다.</div>
+
+<!-- 4 -->
+<h2><span class="n">04</span>무엇이 바뀌었나</h2>
+<div class="tw"><table>
+<tr><th>항목</th><th>예전</th><th>지금</th><th>바꾼 이유</th></tr>
+<tr><td>분석 단위</td><td class="old">법인 (첫 신호)</td><td>감소 에피소드</td><td>같은 법인도 에피소드마다 결과가 다름</td></tr>
+<tr><td>감소 기준</td><td class="old">30%</td><td>40%</td><td>30%는 신호 지속성 기준(2배)에 못 미침 (1.85)</td></tr>
+<tr><td>빈 달</td><td class="old">3개월 모두 관측</td><td>3개월 중 2개월 이상</td><td>분기말 행 누락</td></tr>
+<tr><td>금액 자료형</td><td class="old">float32</td><td>float64 + 경계 포함</td><td>경계 동점에서 판정 뒤집힘</td></tr>
+<tr><td>회복 시점</td><td class="old">6개월 안 한 번이라도</td><td>신호 직후 3개월(t+1~t+3)</td><td>한 번 도달 방식은 평가 곡선이 격자 끝에서 최대(13단계). 종점 시점은 t+1~t+4 모두 동률이라 가장 이른 시점(14단계)</td></tr>
+<tr><td>회복 비교 대상</td><td class="old">before (다른 달)</td><td>회복 창과 같은 달 작년</td><td>계절 오염 (상관 0.58)</td></tr>
+<tr><td>이탈</td><td class="old">이탈</td><td>관측중단</td><td>행 없음을 이탈로 판정할 근거 없음 (10단계)</td></tr>
+</table></div>
+
+<!-- 5 -->
+<h2><span class="n">05</span>이 기준으로 계산했는데 숫자가 다르면</h2>
+<ul class="check">
+  <li><b>에피소드가 아니라 법인 첫 신호만 셌다</b><br><span style="font-size:13px;color:var(--ink2)">8,176은 에피소드 수, 5,941은 법인 수다.</span></li>
+  <li><b>빈 달을 "3개월 모두 관측"으로 걸었다</b><br><span style="font-size:13px;color:var(--ink2)">exclude 로 하면 에피소드 7,131 / 법인 5,198 이 나온다. 기본은 partial.</span></li>
+  <li><b>빈 달을 0으로 채웠다</b><br><span style="font-size:13px;color:var(--ink2)">빈 달은 NaN(모름)이다. 0 은 "거래가 없었다"는 뜻이라 가짜 감소가 생긴다.</span></li>
+  <li><b>금액을 float32로 읽었거나 경계를 포함하지 않았다</b><br><span style="font-size:13px;color:var(--ink2)">정확히 40% 감소인 경우가 흔하다.</span></li>
+  <li><b>회복을 before 와 비교했다</b><br><span style="font-size:13px;color:var(--ink2)">회복 창(t+1~t+3)은 그 달의 작년(t−11~t−9)과 비교한다. t+4~t+6(옛 시점)으로 계산하면 회복 3,941 / 지속저조 3,084가 나온다.</span></li>
+  <li><b>36개월 연속 관측 법인만 봤다</b><br><span style="font-size:13px;color:var(--ink2)">36개월 모두 관측된 법인은 3,372개(21.8%)뿐이고 큰 법인에 치우쳐 있다.</span></li>
+</ul>
+
+<!-- 6 -->
+<h2><span class="n">06</span>코드로 옮기면</h2>
+<p class="lead">원본 구현: <code>code/eda_signal_definition.py</code>(<code>Detector</code>, <code>episodes</code>), <code>code/eda_recovery_definition.py</code>(회복 M2/S1). 새로 짜지 말고 가져다 쓴다.</p>
+<pre># pres   : (법인수, 36) bool  — 그 달 행이 있으면 True
+# demand : (법인수, 36) float64 — 요구불입금금액, 행이 없는 달은 NaN (0 아님)
+# 월 인덱스 0 = 2023.01, 35 = 2025.12
+EPS = 1e-9
+
+def window_mean(c_rows, lo, hi):
+    """lo~hi-1 구간. 3개월 중 2개월 이상 관측이면 관측 달 평균, 아니면 NaN"""
+    ok = pres[c_rows, lo:hi].sum(axis=1) &gt;= 2
+    return np.where(ok, np.nanmean(demand[c_rows, lo:hi], axis=1), np.nan)
+
+# 1) 신호 달
+signal = {}
+for t in range(14, 30):                                   # 2024.03 ~ 2025.06
+    before = window_mean(ALL, t - 14, t - 11)
+    after  = window_mean(ALL, t - 2,  t + 1)
+    rate   = (before - after) / before
+    signal[t] = np.isfinite(rate) &amp; (before &gt;= 10 - EPS) &amp; (rate &gt;= 0.40 - EPS)
+
+# 2) 에피소드: 법인별 신호 달을 정렬해 간격 2개월 이하는 한 묶음, 첫 달이 판정 t
+
+# 3) 결과 (에피소드 첫 달 t 기준)
+def outcome(c, t):
+    if t &lt;= last_pos[c] &lt;= t + 3:                         # 끝까지 복귀 없음
+        return "관측중단"
+    now  = window_mean([c], t + 1, t + 4)[0]              # t+1 ~ t+3
+    base = window_mean([c], t - 11, t - 8)[0]             # 같은 달 작년 (t-11 ~ t-9)
+    if not (np.isfinite(now) and np.isfinite(base)) or base &lt;= 0:
+        return "판정불가"
+    return "회복" if now &gt;= (0.70 - EPS) * base else "지속저조"</pre>
+<div class="note">의사코드는 이해를 돕기 위한 요약이다. 실제 수치는 위 스크립트의 함수로 재현한다. 통계 비교는 에피소드 단위로 하고, 신뢰구간은 <b>법인 단위로 재표집</b>한다(같은 법인의 에피소드는 서로 독립이 아니다).</div>
+
+<!-- 7 -->
+<h2><span class="n">07</span>함께 지킬 것</h2>
+<ul style="padding-left:20px">
+  <li>금액 비교는 <b>중앙값</b>으로 한다.</li>
+  <li>상품 보유는 금액이 아니라 <b>좌수 순서코드(_ord) &gt; 0</b>으로 판정한다.</li>
+  <li><b>변동성 상위 40%(4·5분위) 법인</b>은 입금 감소 신호가 약하다(지속 배수 1.67, 1.43). 대상에서 빼지 말고, 결과를 분위별로 따로 표시한다.</li>
+  <li>출력은 집계만 한다. 법인ID, 개별 법인 값, <code>df.head()</code> 는 출력하지 않는다.</li>
+</ul>
+
+<footer>
+  원팀 · 관계 약화 판정 기준 인계 (개정판) · 모든 수치는 법인 집계값 · 근거: output/10_missing_mechanism, 11_signal_definition_20260928_145513_393326, 12_threshold_validation, 13_recovery_definition_20260928_165331_594725
+</footer>
+</div>
+</body>
+</html>
