@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>관계 약화 분석 방식</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --bg:#FAF9F5;--paper:#FFFFFF;--ink:#141413;--ink2:#3D3D3A;--muted:#87867F;--line:#D1CFC5;--soft:#F0EEE6;
+  --clay:#C8643F;--olive:#5F7A45;--amber:#A87A12;
+  --s1:#C8643F;--s2:#2F76B8;--bar:#B9B6AB;--grid:#E6E3DA;--band:rgba(200,100,63,.14);
+  --sans:"Pretendard",system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+    --clay:#E08A68;--olive:#9DB57F;--amber:#D9AE4A;
+    --s1:#CC7049;--s2:#4088C8;--bar:#6B6962;--grid:#34332F;--band:rgba(204,112,73,.22);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A1A19;--paper:#232322;--ink:#F0EEE6;--ink2:#C9C7BE;--muted:#9A988F;--line:#44433F;--soft:#2C2C2A;
+  --clay:#E08A68;--olive:#9DB57F;--amber:#D9AE4A;
+  --s1:#CC7049;--s2:#4088C8;--bar:#6B6962;--grid:#34332F;--band:rgba(204,112,73,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7}
+.wrap{max-width:980px;margin:0 auto;padding:36px 16px 80px}
+header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:24px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+h1{font-size:27px;line-height:1.3;margin-bottom:6px}
+.sub{color:var(--ink2)}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink)}
+h2{font-size:20px;margin:44px 0 8px;display:flex;gap:10px;align-items:baseline}
+h2 .n{font-family:var(--mono);font-size:12px;color:var(--clay);border:1.5px solid var(--clay);border-radius:6px;padding:0 7px}
+h3{font-size:16px;margin:20px 0 6px}
+p{margin-bottom:10px}
+.lead{color:var(--ink2);margin-bottom:14px}
+.verdict{background:var(--paper);border:1.5px solid var(--line);border-left:6px solid var(--olive);border-radius:10px;padding:18px 20px;margin:8px 0 20px}
+.verdict .big{font-size:19px;font-weight:700;margin-bottom:10px}
+.verdict ol{padding-left:22px}
+.verdict li{margin:5px 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);border-radius:10px;overflow:hidden;margin:18px 0}
+.kpi{background:var(--paper);padding:14px 10px;text-align:center}
+.kpi .l{font-size:12px;color:var(--muted)}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1.2}
+.kpi .s{font-size:12px;color:var(--muted)}
+.note{font-size:13px;color:var(--ink2);background:var(--soft);border-radius:8px;padding:10px 14px;margin:10px 0}
+.warn{border-left:4px solid var(--amber)}
+.tag{display:inline-block;font-size:12px;padding:0 8px;border-radius:999px;white-space:nowrap;border:1px solid}
+.tag.c{color:var(--clay)}.tag.o{color:var(--olive)}.tag.a{color:var(--amber)}.tag.m{color:var(--muted)}
+.tw{overflow-x:auto;margin:10px 0 14px}
+table{width:100%;border-collapse:collapse;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+th{background:var(--soft);text-align:left;padding:9px 12px;border-bottom:1.5px solid var(--line);white-space:nowrap;font-weight:700}
+td{padding:9px 12px;border-bottom:1px solid var(--soft);vertical-align:top}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+tr.hl td{background:var(--soft);font-weight:700}
+.chart{position:relative;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px 12px 6px;margin:12px 0}
+.chart .ct{font-weight:700;font-size:14px}
+.chart .cs{font-size:12px;color:var(--muted);margin-bottom:4px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin:2px 0 4px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:5px}
+.legend i.ln{width:18px;height:0;border-top:2px dashed var(--ink2);border-radius:0;vertical-align:middle}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--sans);fill:var(--muted);font-size:11px}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;line-height:1.5;padding:6px 9px;border-radius:6px;white-space:nowrap;opacity:0;transition:opacity .08s;z-index:5}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:14px 16px}
+.card .ct{font-weight:700;margin-bottom:4px}
+.card .small{font-size:13px;color:var(--ink2)}
+.defbox{font-family:var(--mono);font-size:13px;line-height:1.75;background:var(--paper);border:1.5px dashed var(--clay);border-radius:10px;padding:14px 16px;white-space:pre-wrap;overflow-x:auto}
+footer{margin-top:46px;padding-top:14px;border-top:1.5px solid var(--line);font-size:12px;color:var(--muted)}
+@media(max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">원팀 · 11~13단계 종합 · 분석 방식 결정</div>
+  <h1>관계 약화 분석, 이렇게 하기로 했다</h1>
+  <p class="sub">"관계 약화"를 무엇으로, 얼마나, 누구 단위로 보고, 회복은 어떻게 판정할지 데이터로 하나씩 정했다</p>
+  <div class="meta">
+    <span>데이터 <b>법인 15,473개 × 36개월</b></span>
+    <span>작성 <b>2026.09.28</b></span>
+    <span>근거 <b>output/10 ~ 13 단계 산출물</b></span>
+  </div>
+</header>
+
+<div class="note warn" style="margin-bottom:16px"><b>2026.09.29 갱신 (14·15단계)</b><br>
+① <b>'회복' 판정을 쓰지 않기로 했다.</b> 06장의 회복 정의에 이어 14단계에서 판정 시점(t+1~t+3 ~ t+4~t+6)까지 바꿔 봤지만, 어느 시점이든 6개월 뒤를 맞히는 힘이 0.1대로 약했다(0.129~0.139). 3개월 반등 사건 중 6개월 뒤에도 평소의 70% 이상인 비율은 36.9%(반등 없음 25.5%)다. 반등은 <b>단기 반등(참고용)</b>으로만 남기고, 약화 이후는 <b>7~12개월 뒤 입금 수준</b>으로 본다. 상품 격차는 <b>같은 유형 안에서 약화 vs 약화되지 않은 고객</b>으로 비교한다(기획서 RQ3).<br>
+② 07장의 '채널 관여도'는 <b>약화 중에 채널을 유지했느냐</b>의 효과였다. 약화 전 관여도는 거의 무관했다(통제 모형 AUC 0.55). 대신 <b>약해지는 방식</b>이 크게 갈린다. 3개월 반등 비율이 출금 유지형 63.3% vs 동반 감소형 48.7%이며, <b>16단계에서 7~12개월 뒤 수준으로도 유지됨을 확인했다</b>(1년 뒤 평소의 61~72% vs 37~44%).<br>
+③ 계절조정 후 직전 비교(이태우 08)는 신호가 금방 되돌아와(유지 배수 1.57 vs 2.20) 채택하지 않았다.<br>
+④ <b>16단계</b>: 40% 기준은 2024년·2025년 상반기·법인 첫 사건으로 나눠도 재현됐다(6개월 뒤 감소 유지 약 40% vs 비교군 18%). 상품 보유 격차로 좁힌 상담 후보는 없었다. 결과 정리는 <code>../분석보고서_최종ver.html</code>.<br>
+아래 본문은 13단계 시점의 기록이다. 06장의 '회복' 결론과 09장의 회복 정의는 위 ①로 대체된다. 현재 정의는 <code>../감소신호_판정기준_최종ver.html</code>을 따른다.</div>
+
+<div class="verdict">
+  <div class="big">우리의 분석 방식</div>
+  <ol>
+    <li><b>이탈 대신 관계 약화를 본다.</b> 기록이 사라진 것만으로는 이탈을 판정할 수 없다(10단계).</li>
+    <li><b>관계 약화 = 작년 같은 3개월 대비 입금 40% 이상 감소.</b> 이 기준으로 잡힌 법인은 예금 잔액과 이용 채널도 같이 줄고, 6개월 뒤에도 비교 법인보다 2배 이상 감소 상태로 남는다.</li>
+    <li><b>법인이 아니라 '약화 사건(에피소드)'을 센다.</b> 같은 법인도 약화될 때마다 결과가 다르다.</li>
+    <li><b>'회복' 판정은 쓰지 않는다</b> (09.29 갱신). 몇 달 안의 반등은 이후를 거의 맞히지 못했다. 약화 이후는 <b>7~12개월 뒤 입금 수준</b>으로 보고, 상품 격차는 약화 vs 약화되지 않은 고객으로 비교한다.</li>
+    <li><b>변동성이 큰 법인은 빼지 않고 따로 표시한다.</b> 원래 들쭉날쭉한 법인은 입금 감소 신호가 약하다.</li>
+  </ol>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="l">관계 약화 사건</div><div class="v">8,176</div><div class="s">법인 5,941개 · 2024.03~2025.06</div></div>
+  <div class="kpi"><div class="l">6개월 뒤 감소 유지</div><div class="v">2.2배</div><div class="s">비교 법인 대비 (40% 기준)</div></div>
+  <div class="kpi"><div class="l">회복해도 1년 뒤 수준</div><div class="v">51%</div><div class="s">평소 대비 중앙값</div></div>
+  <div class="kpi"><div class="l">회복과 가장 일관된 요인</div><div class="v" style="font-size:19px">채널 관여도</div><div class="s">이용채널·자동이체·인터넷뱅킹</div></div>
+</div>
+
+<!-- 1 -->
+<h2><span class="n">01</span>출발점: 기존 정의의 숫자 대부분이 임의값이었다</h2>
+<p class="lead">"작년 같은 시기와 비교"만 근거가 있었고, 나머지(창 3개월, 감소 30%, 회복 70%, 모두 같은 기준, 법인 단위)는 관례로 정한 값이었다. 하나씩 데이터로 확인했다.</p>
+<div class="tw"><table>
+<tr><th>질문</th><th>답</th><th>단계</th></tr>
+<tr><td>기록이 사라지면 이탈인가?</td><td>판정할 수 없다. 사라진 법인의 97.5%가 대출을 안고 사라졌다</td><td class="r">10</td></tr>
+<tr><td>같은 법인은 매번 같은 결과인가?</td><td>아니다. 약화 사건마다 결과가 다르다</td><td class="r">11</td></tr>
+<tr><td>3개월 창은 근거가 있나?</td><td>있다. 2개월과 같은 시점에 잡으면서 더 안정적이다</td><td class="r">11</td></tr>
+<tr><td>업종·변동성별로 기준을 달리해야 하나?</td><td>보정해도 나아지지 않는다. 같은 기준을 쓴다</td><td class="r">11</td></tr>
+<tr><td>얼마나 줄어야 약화인가?</td><td>클수록 오래 가는 연속적 관계. 40%가 "2배 지속" 기준의 최소 통과값</td><td class="r">12</td></tr>
+<tr><td>입금만 준 게 아니라 관계가 약해진 게 맞나?</td><td>맞다. 예금 잔액·이용 채널도 같이 줄고, 같은 업종 평균 변화로는 설명되지 않는다</td><td class="r">12</td></tr>
+<tr><td>회복은 어떻게 판정하나?</td><td>6개월 뒤 같은 달 작년 대비 70%. 이전 방식엔 계절 오염이 있었다</td><td class="r">13</td></tr>
+</table></div>
+
+<!-- 2 -->
+<h2><span class="n">02</span>누구를 볼 것인가: 이탈이 아니라 관계 약화</h2>
+<p>법인·월 칸의 34.3%는 행 자체가 없다. 끝에서 사라진 법인이 5,474개(35.4%)인데, 이들의 <b>97.5%가 마지막 달까지 대출을 보유</b>하고 있었다(계속 남은 법인 98.1%). 계약을 정리하고 떠난 모습이 아니다. 1~2개월짜리 공백은 매 분기말에 1.5~2.5배 몰려, 데이터가 만들어지는 방식의 흔적으로 보인다.</p>
+<div class="note">그래서 <b>기록이 사라진 것을 이탈로 세지 않는다.</b> '관측중단(원인 불명)'으로 따로 표시하고, 분석은 기록이 남아 있는 달에서 보이는 <b>거래 위축</b>에 집중한다. 자세한 내용은 <code>근거기록/10_행없음_원인검증.html</code>.</div>
+
+<!-- 3 -->
+<h2><span class="n">03</span>무엇을 셀 것인가: 법인이 아니라 약화 사건</h2>
+<p class="lead">한 법인이 16개월 동안 여러 번 약화되는 경우가 많다. 같은 법인의 첫 번째와 두 번째 약화 결과를 비교했다.</p>
+<div class="tw"><table>
+<tr><th>비교</th><th class="r">결과 일치율</th><th class="r">kappa</th><th>뜻</th></tr>
+<tr><td>같은 법인의 1번째 vs 2번째 약화</td><td class="r">54%</td><td class="r">0.07</td><td>우연 수준. 처음 회복했다고 다음에도 회복하지 않는다</td></tr>
+<tr><td>같은 약화 안에서 판정 달을 한 달 옮김</td><td class="r">86%</td><td class="r">0.72</td><td>한 번의 약화 안에서는 결과가 안정적이다</td></tr>
+</table></div>
+<p><b>회복형 법인이 따로 있는 게 아니라, 약화될 때마다 그때의 상황이 결과를 가른다.</b> 그래서 단위를 법인에서 약화 사건(에피소드)으로 바꿨다. 연달아 잡힌 신호(간격 2개월 이하)는 한 사건으로 묶는다. 요인을 가르는 순위는 첫 신호·마지막 신호·무작위 신호 어느 것을 써도 거의 같았다(순위 상관 0.95~0.97).</p>
+
+<!-- 4 -->
+<h2><span class="n">04</span>어떻게 잴 것인가: 3개월 창, 모든 법인에 같은 기준</h2>
+<div class="tw"><table>
+<tr><th>창 길이</th><th class="r">6개월 뒤 신호 유지<br><span style="font-weight:400">(비교 법인 대비 배수)</span></th><th class="r">탐지율</th><th class="r">몇 개월 먼저 잡나</th></tr>
+<tr><td>1개월</td><td class="r">1.45</td><td class="r">99.7%</td><td class="r">5</td></tr>
+<tr><td>2개월</td><td class="r">1.63</td><td class="r">98.8%</td><td class="r">4</td></tr>
+<tr class="hl"><td>3개월 (채택)</td><td class="r">1.72</td><td class="r">99.9%</td><td class="r">4</td></tr>
+<tr><td>4개월</td><td class="r">1.73</td><td class="r">99.4%</td><td class="r">3</td></tr>
+<tr><td>6개월</td><td class="r">1.70</td><td class="r">100%</td><td class="r">1</td></tr>
+</table></div>
+<p>3개월은 2개월과 같은 시점(4개월 먼저)에 잡으면서 더 안정적이고, 4개월보다 한 달 빠르다. <b>'3개월'에 데이터 근거가 생겼다.</b></p>
+
+<h3>변동성 차이는 크지만, 기준을 보정해도 나아지지 않는다</h3>
+<p>원래 입금이 들쭉날쭉한 법인일수록 같은 기준에서 더 자주 잡히고, 그 신호는 금방 사라진다. 하지만 업종·규모 칸별 기준(G)이나 법인별 변동성 기준(F)으로 바꿔도 신호 품질이 좋아지지 않았다(유지 배수 같은 기준 1.73 ≥ 칸별 1.70 ≥ 법인별 1.65). 변동성 차이의 83%가 업종·규모로 설명되지 않는 법인 고유의 차이이기 때문이다.</p>
+<div class="chart" id="c-vol">
+  <div class="ct">변동성 분위별 6개월 뒤 신호 유지 배수 (40% 기준)</div>
+  <div class="cs">점선 = 판정 기준 2배 · 막대 끝 선 = 95% 신뢰구간 · 1분위가 가장 안정적인 법인</div>
+  <div class="legend"><span><i style="background:var(--s2)"></i>관계 약화 (입금 40%↓)</span><span><i style="background:var(--s1)"></i>강한 약화 (+ 잔액·채널·자동이체 동반 감소)</span><span><i class="ln"></i>기준 2배</span></div>
+  <div class="svgbox"></div>
+</div>
+<p>4·5분위(변동성 상위 40%)는 강한 약화로 좁혀도 2배를 확실히 넘지 못한다. 그렇다고 빼면 분석 대상의 56%가 사라지고 대상이 "원래 안정적인 법인"으로 바뀐다. 그래서 <b>빼지 않고, 결과를 변동성 분위별로 따로 표시</b>한다.</p>
+
+<!-- 5 -->
+<h2><span class="n">05</span>얼마나 줄어야 약화인가: 40%</h2>
+<div class="chart" id="c-sweep">
+  <div class="ct">감소 기준별 6개월 뒤 신호 유지 배수</div>
+  <div class="cs">음영 = 95% 신뢰구간 · 점선 = 판정 기준 2배 · 점 위에 올리면 대상 수</div>
+  <div class="svgbox"></div>
+</div>
+<p><b>감소 폭이 클수록 신호가 오래 간다.</b> 꺾이는 지점 없이 계속 올라가므로, 데이터가 "정답 기준"을 가리키지는 않는다. 기준은 <b>놓치는 고객과 헛경보 사이의 선택</b>이다. 우리는 미리 정해 둔 기준("6개월 뒤에도 감소 상태일 가능성이 비교 법인의 2배")을 신뢰구간까지 확실히 넘는 <b>가장 낮은 값 40%</b>를 택했다. 35%는 신뢰구간이 2배에 걸친다.</p>
+
+<h3>관계 약화라고 부를 수 있는가: 6가지 검증</h3>
+<div class="tw"><table>
+<tr><th>검증</th><th class="r">30% 기준</th><th class="r">45% 기준</th><th>판정</th></tr>
+<tr><td>잡음이 아닌가 (6개월 뒤 유지 배수 ≥ 2)</td><td class="r">1.85</td><td class="r">2.40</td><td>30% <span class="tag c">실패</span> · 40%부터 <span class="tag o">통과</span></td></tr>
+<tr><td>업종 평균으로 설명되는가 (업종 중앙값을 빼도 신호인 비율 ≥ 80%)</td><td class="r">84%</td><td class="r">86%</td><td><span class="tag o">통과</span></td></tr>
+<tr><td>관계가 같이 약해지나: 요구불예금잔액 (SMD)</td><td class="r">−0.38</td><td class="r">−0.42</td><td><span class="tag o">통과</span></td></tr>
+<tr><td>관계가 같이 약해지나: 이용채널수 (SMD)</td><td class="r">−0.44</td><td class="r">−0.50</td><td><span class="tag o">통과</span></td></tr>
+<tr><td>관계가 같이 약해지나: 자동이체 (SMD)</td><td class="r">−0.14</td><td class="r">−0.17</td><td><span class="tag m">약함</span></td></tr>
+<tr><td>작은 법인 반올림 탓이 아닌가 (규모 분위별 신호율 최대/최소 ≤ 2)</td><td class="r">1.09</td><td class="r">1.18</td><td><span class="tag o">통과</span></td></tr>
+</table></div>
+<p style="font-size:13px;color:var(--muted)">SMD = 같은 달·규모·업종의 비교 법인과 비교한 표준화 차이. −0.2보다 작으면 뚜렷하게 더 줄었다는 뜻. 검증 2~4는 30%와 45%에서 수행했고 둘 다 통과해, 그 사이인 40%도 통과로 본다.</p>
+
+<!-- 6 -->
+<h2><span class="n">06</span>회복은 어떻게 판정할 것인가</h2>
+<div class="grid2">
+  <div class="card"><div class="ct">이전 방식</div><p class="small">6개월 안에 3개월 평균이 한 번이라도 before의 70%에 닿으면 회복. 하지만 회복 창과 before의 <b>달력월이 달라</b>, 연말 결산기에 회복 창이 걸리면 쉽게 회복으로 잡혔다(계절비와 회복률 상관 0.58).</p></div>
+  <div class="card"><div class="ct">채택한 방식</div><p class="small"><b>6개월 뒤(t+4~t+6)</b> 입금이 <b>그 달의 작년</b> 평균의 70% 이상이면 회복. 같은 달끼리 비교해 계절이 빠지고, 달별 회복률 차이가 11.0%p에서 7.3%p로 줄었다.</p></div>
+</div>
+<p>판정 방식(한 번 도달 / 종점 / 계속 유지) × 기준(60~90%) 12개 조합을 <b>1년 뒤 실제 상태를 얼마나 잘 가르는지</b>로 평가했다. '한 번 도달'과 '계속 유지'는 평가가 기준값 끝에서 최대가 돼 고를 수 없었다. '종점' 방식만 안쪽에서 최대가 됐고, 60~90%가 모두 비슷해 현재 기준인 70%를 유지했다.</p>
+
+<h3>한 번 크게 줄면 대부분 오래 간다</h3>
+<div class="chart" id="c-year">
+  <div class="ct">6개월 안의 결과별, 1년 뒤 입금 수준</div>
+  <div class="cs">평소(2년 전 같은 달) 대비 중앙값 · 막대 옆 = 1년 뒤 평소의 70% 이상인 비율 · 2024.03~12 약화 사건</div>
+  <div class="svgbox"></div>
+</div>
+<p>6개월 안에 회복해 계속 유지한 경우도 <b>1년 뒤에는 평소의 절반 수준</b>이고, 70% 이상으로 돌아온 건 3건 중 1건뿐이다. 6개월 회복 판정이 1년 뒤를 가르는 힘은 약하다(평가 점수 0.09~0.15, 0이 우연·1이 완벽). <b>기다리면 돌아온다고 보기 어렵다. 조기 개입이 필요하다는 근거</b>다.</p>
+<div class="note warn">1년 뒤 비교는 2년 전 같은 달과 비교하므로 2년간의 추세도 섞여 있다. 평가는 2024.03~12 약화 사건으로만 했다.</div>
+
+<!-- 7 -->
+<h2><span class="n">07</span>무엇이 회복을 가르나: 채널 관여도</h2>
+<div class="chart" id="c-factor">
+  <div class="ct">회복 vs 지속저조의 차이 크기 (절대 SMD)</div>
+  <div class="cs">14개 변수 중 주요 11개 · 이전 회복 정의와 새 정의 비교 · 오른쪽일수록 두 집단 차이가 큼 · 점선 0.2 = 뚜렷한 차이 기준</div>
+  <div class="legend"><span><i style="background:var(--bar)"></i>이전 정의</span><span><i style="background:var(--s1)"></i>새 정의</span></div>
+  <div class="svgbox"></div>
+</div>
+<p>이전 정의에서 가장 커 보였던 <b>감소 폭과 업종은 정의가 만든 인공물</b>이었다. 크게 떨어질수록 "before의 70%"에 닿기 기계적으로 어렵고, 업종은 계절 오염을 타고 있었다. 정의를 바꿔도 위에 남는 것은 <b>이용채널수·자동이체·인터넷뱅킹, 즉 채널 관여도</b>다. 규모(before 입금 수준)는 거의 관계가 없다.</p>
+<div class="note warn">새 정의에서 가장 큰 차이도 0.18로, "뚜렷한 차이" 기준 0.2에 못 미친다. <b>약화 시점의 특성만으로 회복을 가르는 힘은 약하다.</b> 채널 관여도는 "방향은 일관되지만 효과는 작은 요인"으로 다룬다. 변동성·규모·업종을 통제해도 남는지는 다음 단계에서 확인한다.</div>
+
+<!-- 8 -->
+<h2><span class="n">08</span>미리 정한 규칙과 다르게 결정한 4가지</h2>
+<p class="lead">판정 규칙은 결과를 보기 전에 고정했다. 그런데 결과를 보니 규칙 자체에 빈틈이 있는 경우가 네 번 있었다. 그대로 따르지 않고, 이유를 남기고 고쳤다.</p>
+<div class="tw"><table>
+<tr><th>항목</th><th>규칙의 결과</th><th>채택</th><th>이유</th></tr>
+<tr><td>창 길이</td><td>2개월</td><td><b>3개월</b></td><td>규칙은 "짧을수록 빨리 잡는다"고 가정했지만, 2·3개월의 탐지 시점이 같았다. 3개월이 모든 지표에서 앞선다</td></tr>
+<tr><td>기준 방식</td><td>칸별 보정(G)</td><td><b>모든 법인 같은 기준</b></td><td>규칙은 "보정이 필요한가"만 물었다. 보정해도 신호 품질이 나아지지 않았다</td></tr>
+<tr><td>감소 기준</td><td>복합·45%</td><td><b>입금 단독·40%</b></td><td>평가 지표가 기준값을 올릴수록 계속 좋아져, 탐색 범위의 끝(50%)이 선택을 좌우했다. 동점 처리도 엄격한 쪽으로 기울었다. 미리 정한 1번 기준의 최소 통과값을 택했다</td></tr>
+<tr><td>분석 표본</td><td>변동성 규칙 적용(44%)</td><td><b>전체 + 변동성 표시</b></td><td>전체용 기준을 하위집단마다 적용해 56%가 빠졌다. 미리 "70% 미만이면 팀 판단"으로 정해 둔 지점이다</td></tr>
+</table></div>
+<div class="note">이후 규칙에는 "평가 곡선의 최댓값이 격자 끝이면 선택 보류", "동점이면 현재 기준 쪽"을 기본으로 넣었다. 13단계 회복 정의 선택은 이 장치로 규칙대로 결정됐다.</div>
+
+<!-- 9 -->
+<h2><span class="n">09</span>확정된 정의와 다음 단계</h2>
+<div class="defbox">관계 약화   작년 같은 3개월 대비 요구불입금 3개월 평균 40% 이상 감소
+            (before ≥ 10백만원, 3개월 중 2개월 이상 관측, 2024.03~2025.06)
+강한 약화   + 같은 기간 요구불예금잔액 40%↓ 또는 이용채널 1개↓ 또는 자동이체 1단계↓
+단위        약화 사건(에피소드). 간격 2개월 이하 신호는 한 사건. 통계는 법인 단위로 보정
+회복        6개월 뒤(t+4~t+6) 입금 ≥ 그 달 작년의 70%     보조: 유지 회복 / 일시 반등 / 지속저조
+관측중단    마지막 기록이 t~t+3이고 끝까지 복귀 없음 ('이탈'이라 부르지 않음)
+대상        8,176건 (법인 5,941) = 회복 3,941 · 지속저조 3,084 · 관측중단 520 · 판정불가 631
+변동성      5분위를 통제·층화 변수로. 4·5분위는 결과를 따로 표시</div>
+
+<h3>다음 단계: 팀 기획서 흐름으로</h3>
+<div class="tw"><table>
+<tr><th>순서</th><th>할 일</th><th>이번 결정이 바꾸는 점</th></tr>
+<tr><td>1</td><td>채널 관여도 효과를 변동성·규모·업종으로 통제해 확인</td><td>에피소드 단위, 법인 군집 보정</td></tr>
+<tr><td>2</td><td>② 금융행태 집단 구분</td><td>집단 × 약화 / 강한 약화 단계</td></tr>
+<tr><td>3</td><td>④ 상품 보유 격차 (회복 vs 지속저조, 같은 집단 안에서)</td><td>회복 = 새 정의. 유지 회복·일시 반등 구분 가능</td></tr>
+<tr><td>4</td><td>⑤ 상품 제안</td><td>약화 단계별 · 변동성 분위별로 제안을 나눔</td></tr>
+</table></div>
+
+<!-- 10 -->
+<h2><span class="n">10</span>한계</h2>
+<ul style="padding-left:20px">
+  <li>행이 만들어지는 기준을 모른다. 제공처 문의가 금지돼 데이터로만 좁혔다.</li>
+  <li>40%와 70%는 "데이터가 고른 정답"이 아니라, 미리 정한 기준을 만족하는 값과 바꿀 근거가 없는 값이다.</li>
+  <li>1년 뒤 평가는 2024.03~12 약화 사건으로만 했다. 36개월 데이터의 한계다.</li>
+  <li>모든 비교는 관계(상관)이지 원인이 아니다. 채널 관여도를 높이면 회복한다는 뜻은 아니다.</li>
+</ul>
+
+<footer>
+  원팀 · 11~13단계 분석 방식 결정 · 모든 수치는 법인 집계값이며 개별 법인 정보는 포함하지 않음 · 근거: output/11_signal_definition_20260928_145513_393326, 12_threshold_validation, 13_recovery_definition_20260928_165331_594725
+</footer>
+</div>
+
+<script>
+(function(){
+  const NS="http://www.w3.org/2000/svg";
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+  function tip(box,html,evt){let t=box.querySelector(".tip");if(!t){t=document.createElement("div");t.className="tip";box.appendChild(t);}
+    const r=box.getBoundingClientRect();let x=evt.clientX-r.left+12,y=evt.clientY-r.top-10;t.innerHTML=html;t.style.opacity=1;
+    if(x+t.offsetWidth>box.clientWidth-4)x=evt.clientX-r.left-t.offsetWidth-12;t.style.left=Math.max(4,x)+"px";t.style.top=Math.max(4,y)+"px";}
+  function untip(box){const t=box.querySelector(".tip");if(t)t.style.opacity=0;}
+  function bar(x,y,w,h,fill,parent){return el("path",{d:`M${x},${y+h} V${y+3} q0,-3 3,-3 h${w-6} q3,0 3,3 V${y+h} Z`,fill},parent);}
+
+  function volChart(){
+    const box=document.getElementById("c-vol"),host=box.querySelector(".svgbox");
+    const A=[[4.28,3.43,5.14],[2.86,2.38,3.33],[2.43,2.22,2.68],[1.67,1.56,1.82],[1.43,1.35,1.52]];
+    const D=[[4.99,3.67,6.47],[3.72,2.96,4.59],[2.71,2.35,3.13],[2.09,1.87,2.36],[1.67,1.51,1.79]];
+    const W=720,H=250,L=40,R=10,T=10,B=34,max=7,ih=H-T-B,gw=(W-L-R)/5,bw=gw*0.3;
+    const s=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"변동성 분위별 신호 유지 배수"},host);
+    const Y=v=>T+ih*(1-v/max);
+    [0,1,2,3,4,5,6,7].forEach(t=>{el("line",{x1:L,x2:W-R,y1:Y(t),y2:Y(t),stroke:css("--grid")},s);el("text",{x:L-6,y:Y(t)+4,"text-anchor":"end"},s).textContent=t;});
+    for(let q=0;q<5;q++){
+      const cx=L+gw*q+gw/2;
+      el("text",{x:cx,y:H-B+18,"text-anchor":"middle",style:`fill:${css("--ink2")};font-size:12px`},s).textContent=`${q+1}분위`+(q===0?" (안정)":q===4?" (변동 큼)":"");
+      [[A[q],css("--s2"),"관계 약화",-bw-1],[D[q],css("--s1"),"강한 약화",1]].forEach(([v,c,name,dx])=>{
+        const x=cx+dx,b=bar(x,Y(v[0]),bw,Y(0)-Y(v[0]),c,s);
+        el("line",{x1:x+bw/2,x2:x+bw/2,y1:Y(v[1]),y2:Y(v[2]),stroke:css("--ink2"),"stroke-width":1.2},s);
+        el("line",{x1:x+bw/2-4,x2:x+bw/2+4,y1:Y(v[1]),y2:Y(v[1]),stroke:css("--ink2"),"stroke-width":1.2},s);
+        el("line",{x1:x+bw/2-4,x2:x+bw/2+4,y1:Y(v[2]),y2:Y(v[2]),stroke:css("--ink2"),"stroke-width":1.2},s);
+        const hit=el("rect",{x:x,y:T,width:bw,height:ih,fill:"transparent"},s);
+        hit.addEventListener("mousemove",e=>{tip(box,`<b>${q+1}분위 · ${name}</b><br>${v[0].toFixed(2)}배 (95% CI ${v[1].toFixed(2)}~${v[2].toFixed(2)})`,e);b.style.opacity=.8;});
+        hit.addEventListener("mouseleave",()=>{untip(box);b.style.opacity=1;});
+      });
+    }
+    el("line",{x1:L,x2:W-R,y1:Y(2),y2:Y(2),stroke:css("--ink2"),"stroke-width":1.2,"stroke-dasharray":"5 4"},s);
+    el("line",{x1:L,x2:W-R,y1:Y(0),y2:Y(0),stroke:css("--muted")},s);
+  }
+
+  function sweepChart(){
+    const box=document.getElementById("c-sweep"),host=box.querySelector(".svgbox");
+    const th=[20,25,30,35,40,45,50],v=[1.605,1.722,1.849,1.994,2.198,2.401,2.630],lo=[1.567,1.676,1.787,1.919,2.101,2.302,2.503],hi=[1.643,1.770,1.912,2.068,2.288,2.491,2.748];
+    const ep=[11284,10530,9694,8942,8176,7474,6807],fm=[7573,7187,6763,6361,5941,5550,5139];
+    const W=720,H=240,L=40,R=16,T=12,B=30,ih=H-T-B,iw=W-L-R,ymin=1.4,ymax=2.8;
+    const X=t=>L+iw*(t-20)/30,Y=val=>T+ih*(1-(val-ymin)/(ymax-ymin));
+    const s=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"감소 기준별 신호 유지 배수"},host);
+    [1.6,1.8,2.0,2.2,2.4,2.6,2.8].forEach(t=>{el("line",{x1:L,x2:W-R,y1:Y(t),y2:Y(t),stroke:css("--grid")},s);el("text",{x:L-6,y:Y(t)+4,"text-anchor":"end"},s).textContent=t.toFixed(1);});
+    th.forEach(t=>el("text",{x:X(t),y:H-B+16,"text-anchor":"middle"},s).textContent=t+"%");
+    el("path",{d:th.map((t,i)=>(i?"L":"M")+X(t)+","+Y(hi[i])).join(" ")+" "+th.slice().reverse().map((t,i)=>"L"+X(t)+","+Y(lo[th.length-1-i])).join(" ")+" Z",fill:css("--band")},s);
+    el("line",{x1:L,x2:W-R,y1:Y(2),y2:Y(2),stroke:css("--ink2"),"stroke-width":1.2,"stroke-dasharray":"5 4"},s);
+    el("text",{x:L+4,y:Y(2)-6,style:`fill:${css("--ink2")}`},s).textContent="기준 2배";
+    el("path",{d:th.map((t,i)=>(i?"L":"M")+X(t)+","+Y(v[i])).join(" "),fill:"none",stroke:css("--s1"),"stroke-width":2},s);
+    th.forEach((t,i)=>{
+      const sel=t===40;
+      const c=el("circle",{cx:X(t),cy:Y(v[i]),r:sel?6:4,fill:css("--s1"),stroke:css("--paper"),"stroke-width":2},s);
+      if(sel) el("text",{x:X(t),y:Y(v[i])-12,"text-anchor":"middle",style:`fill:${css("--ink")};font-weight:700;font-size:12px`},s).textContent="40% 채택 · 2.20";
+      const hit=el("rect",{x:X(t)-iw/12,y:T,width:iw/6,height:ih,fill:"transparent"},s);
+      hit.addEventListener("mousemove",e=>{tip(box,`<b>감소 ${t}% 기준</b><br>유지 배수 ${v[i].toFixed(2)} (CI ${lo[i].toFixed(2)}~${hi[i].toFixed(2)})<br>약화 사건 ${ep[i].toLocaleString()}건 · 법인 ${fm[i].toLocaleString()}개`,e);c.setAttribute("r",7);});
+      hit.addEventListener("mouseleave",()=>{untip(box);c.setAttribute("r",sel?6:4);});
+    });
+    el("line",{x1:L,x2:W-R,y1:T+ih,y2:T+ih,stroke:css("--muted")},s);
+  }
+
+  function yearChart(){
+    const box=document.getElementById("c-year"),host=box.querySelector(".svgbox");
+    const d=[["유지 회복",0.514,0.495,0.532,34.4,2212],["일시 반등",0.455,0.420,0.480,28.9,1117],["지속저조",0.264,0.227,0.288,18.7,903]];
+    const W=720,rowH=46,L=90,R=190,H=d.length*rowH+30;
+    const s=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"결과별 1년 뒤 입금 수준"},host);
+    const X=v=>L+(W-L-R)*v;
+    [0,.25,.5,.75,1].forEach(t=>{el("line",{x1:X(t),x2:X(t),y1:4,y2:H-24,stroke:css("--grid")},s);el("text",{x:X(t),y:H-8,"text-anchor":"middle"},s).textContent=Math.round(t*100)+"%";});
+    el("line",{x1:X(.7),x2:X(.7),y1:4,y2:H-24,stroke:css("--ink2"),"stroke-dasharray":"5 4"},s);
+    el("text",{x:X(.7)+4,y:14,style:`fill:${css("--ink2")}`},s).textContent="회복 기준 70%";
+    d.forEach((r,i)=>{
+      const y=i*rowH+18;
+      el("text",{x:L-10,y:y+15,"text-anchor":"end",style:`fill:${css("--ink")};font-size:13px`},s).textContent=r[0];
+      const b=el("path",{d:`M${L},${y+4} H${X(r[1])-3} q3,0 3,3 V${y+19} q0,3 -3,3 H${L} Z`,fill:css("--s2")},s);
+      el("line",{x1:X(r[2]),x2:X(r[3]),y1:y+13,y2:y+13,stroke:css("--ink2"),"stroke-width":1.2},s);
+      el("text",{x:X(1)+10,y:y+17,style:`fill:${css("--ink2")};font-size:12px`},s).textContent=`중앙값 ${Math.round(r[1]*100)}% · 70%↑ ${r[4]}%`;
+      const hit=el("rect",{x:0,y:y,width:W,height:rowH-6,fill:"transparent"},s);
+      hit.addEventListener("mousemove",e=>{tip(box,`<b>${r[0]}</b> (${r[5].toLocaleString()}건)<br>1년 뒤 수준 중앙값 ${(r[1]*100).toFixed(1)}% (CI ${(r[2]*100).toFixed(0)}~${(r[3]*100).toFixed(0)}%)<br>평소 70% 이상 회복 ${r[4]}%`,e);b.style.opacity=.8;});
+      hit.addEventListener("mouseleave",()=>{untip(box);b.style.opacity=1;});
+    });
+  }
+
+  function factorChart(){
+    const box=document.getElementById("c-factor"),host=box.querySelector(".svgbox");
+    const d=[["이용채널수",.294,.181],["자동이체",.292,.149],["인터넷뱅킹",.352,.137],["변동성 분위",.217,.135],["요구불예금잔액",.133,.129],["여신잔액",.031,.103],["감소 폭",.407,.096],["보유상품수",.177,.074],["업종",.263,.065],["법인 고객등급",.174,.020],["규모(before 입금)",.108,.013]];
+    const W=720,rowH=26,L=130,R=20,T=6,H=d.length*rowH+30,max=.45;
+    const s=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"회복 vs 지속저조 효과 크기 비교"},host);
+    const X=v=>L+(W-L-R)*v/max;
+    [0,.1,.2,.3,.4].forEach(t=>{el("line",{x1:X(t),x2:X(t),y1:T,y2:H-24,stroke:t===.2?css("--ink2"):css("--grid"),"stroke-dasharray":t===.2?"5 4":"none"},s);el("text",{x:X(t),y:H-8,"text-anchor":"middle"},s).textContent=t.toFixed(1);});
+    d.forEach((r,i)=>{
+      const y=T+i*rowH+rowH/2;
+      const top=i<3;
+      el("text",{x:L-10,y:y+4,"text-anchor":"end",style:`fill:${css("--ink")};font-size:12px;font-weight:${top?700:400}`},s).textContent=r[0];
+      el("line",{x1:X(r[1]),x2:X(r[2]),y1:y,y2:y,stroke:css("--grid"),"stroke-width":3},s);
+      el("circle",{cx:X(r[1]),cy:y,r:5,fill:css("--bar"),stroke:css("--paper"),"stroke-width":2},s);
+      el("circle",{cx:X(r[2]),cy:y,r:6,fill:css("--s1"),stroke:css("--paper"),"stroke-width":2},s);
+      const hit=el("rect",{x:0,y:y-rowH/2,width:W,height:rowH,fill:"transparent"},s);
+      hit.addEventListener("mousemove",e=>tip(box,`<b>${r[0]}</b><br>이전 정의 ${r[1].toFixed(3)} → 새 정의 ${r[2].toFixed(3)}`,e));
+      hit.addEventListener("mouseleave",()=>untip(box));
+    });
+  }
+
+  function render(){document.querySelectorAll(".svgbox").forEach(h=>h.innerHTML="");volChart();sweepChart();yearChart();factorChart();}
+  render();
+  if(window.matchMedia) window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+})();
+</script>
+</body>
+</html>
