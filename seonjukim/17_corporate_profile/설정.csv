@@ -1,0 +1,34 @@
+﻿설정,값
+data_path,true
+selftest,false
+signal_source,"""upstream"""
+episodes_path,false
+episode_map_path,false
+signal_scope,null
+episode_month_format,"""yyyymm"""
+analysis_mode,"""A"""
+representative,"""first"""
+as_of,null
+lookback_months,3
+min_obs,2
+holding_positive_months,2
+private_out_dir,true
+out_dir,true
+boot,200
+seed,42
+min_cell,10
+file_type,"""auto"""
+sheet,"""0"""
+excel_engine,"""auto"""
+encodings,"""utf-8-sig,utf-8,cp949"""
+sep,"""auto"""
+quotechar,"""\"""""
+thousands,"""auto"""
+skiprows,-1
+chunksize,100000
+신호규칙,"{""threshold"": 0.4, ""before_floor"": 10.0, ""width"": 3, ""mode"": ""partial"", ""start"": ""202403"", ""end"": ""202506"", ""gap"": 2}"
+월별컬럼매핑,"{""corp_id"": ""법인ID"", ""month"": ""기준년월"", ""industry"": ""업종_대분류"", ""subindustry"": ""업종_중분류"", ""province"": ""사업장_시도"", ""district"": ""사업장_시군구"", ""grade"": ""법인_고객등급"", ""dedicated"": ""전담고객여부""}"
+월별입력별칭,{}
+에피소드컬럼매핑,"{""corp_id"": null, ""episode"": null, ""month"": null, ""before"": null, ""after"": null, ""signal_months"": null}"
+변수별최소관측덮어쓰기,{}
+경로기록,"""민감 경로는 기록하지 않음. 전달 여부만 저장"""
