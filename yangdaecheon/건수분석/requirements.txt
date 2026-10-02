@@ -1,0 +1,10 @@
+# 건수분석 실행에 필요한 패키지 (scipy 불필요)
+# 아래 버전에서 검증함 (Python 3.14, Windows 11, 2026-10-02). 더 낮은 버전은 시험하지 않았으므로
+# 결과가 기준 실행과 다르면 먼저 이 버전으로 맞춰 보세요.
+numpy>=2.5
+pandas>=3.0
+matplotlib>=3.11
+openpyxl>=3.1
+
+# 노트북으로 실행할 때만 필요 (python run_all.py 로 돌리면 불필요). Jupyter·VS Code 어느 쪽이든 커널만 있으면 됨
+ipykernel>=7
