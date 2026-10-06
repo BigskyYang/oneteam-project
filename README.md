@@ -31,15 +31,18 @@
 
 ## 🎞 발표자료
 
-> 최종 발표자료(PPT) 완성본을 이미지로 넣을 자리. 슬라이드를 PNG로 내보내 `docs/presentation/` 에 `slide_01.png`, `slide_02.png` … 로 저장한 뒤, 아래 주석(`<!--`, `-->`)을 지우고 장 수에 맞게 줄을 늘리거나 줄인다.
+<!-- 발표자료 교체 방법: 슬라이드를 PNG(가로 1600px 정도)로 내보내 docs/presentation/ 에 slide_01.png, slide_02.png … 로 덮어쓰고, 장 수가 바뀌면 아래 img 줄을 늘리거나 줄인다. -->
 
-<!--
 <p align="center">
-  <img src="docs/presentation/slide_01.png" width="800" alt="발표자료 1">
-  <img src="docs/presentation/slide_02.png" width="800" alt="발표자료 2">
-  <img src="docs/presentation/slide_03.png" width="800" alt="발표자료 3">
+  <img src="docs/presentation/slide_01.png" width="800" alt="발표자료 1"><br><br>
+  <img src="docs/presentation/slide_02.png" width="800" alt="발표자료 2"><br><br>
+  <img src="docs/presentation/slide_03.png" width="800" alt="발표자료 3"><br><br>
+  <img src="docs/presentation/slide_04.png" width="800" alt="발표자료 4"><br><br>
+  <img src="docs/presentation/slide_05.png" width="800" alt="발표자료 5"><br><br>
+  <img src="docs/presentation/slide_06.png" width="800" alt="발표자료 6"><br><br>
+  <img src="docs/presentation/slide_07.png" width="800" alt="발표자료 7"><br><br>
+  <img src="docs/presentation/slide_08.png" width="800" alt="발표자료 8"><br><br>
 </p>
--->
 
 ## 👥 팀
 
