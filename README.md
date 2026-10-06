@@ -38,6 +38,18 @@
 - 규칙에 쓰지 않은 기업(독립 검증) 4.29, 분석 기준 20가지 2.75~6.47로 모두 연관 유지
 - 신호 기업 넷 중 셋은 관계 위축이 없고, 거래가 많은 기업은 신호가 드물다(사각지대). 인과나 조기경보가 아닌 **먼저 살펴볼 기업을 고르는 선별 기준**으로 쓴다
 
+## 발표자료
+
+> 최종 발표자료(PPT) 완성본을 이미지로 넣을 자리. 슬라이드를 PNG로 내보내 `docs/presentation/` 에 `slide_01.png`, `slide_02.png` … 로 저장한 뒤, 아래 주석(`<!--`, `-->`)을 지우고 장 수에 맞게 줄을 늘리거나 줄인다.
+
+<!--
+<p align="center">
+  <img src="docs/presentation/slide_01.png" width="800" alt="발표자료 1">
+  <img src="docs/presentation/slide_02.png" width="800" alt="발표자료 2">
+  <img src="docs/presentation/slide_03.png" width="800" alt="발표자료 3">
+</p>
+-->
+
 ## 폴더 구조
 
 ```
