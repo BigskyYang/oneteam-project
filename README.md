@@ -14,19 +14,20 @@
 ![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white)
 ![matplotlib](https://img.shields.io/badge/matplotlib-11557C)
 
-[프로젝트 개요](#-프로젝트-개요) · [발표자료](#-발표자료) · [팀](#-팀) · [폴더 구조](#-폴더-구조) · [분석 재현](#-분석-재현) · [팀 규칙](#-팀-규칙)
+[프로젝트 개요](#-프로젝트-개요) · [발표자료](#-발표자료) · [팀](#-팀) · [폴더 구조](#-폴더-구조) · [팀 규칙](#-팀-규칙)
 
 </div>
 
 ## 📌 프로젝트 개요
 
-| 구분 | 내용 |
-|:---:|---|
-| **배경** | 법인고객은 계좌를 유지한 채 거래 일부를 줄이거나 다른 은행으로 나눌 수 있어, 계좌 해지 여부만으로는 관계 약화를 알기 어렵다 |
-| **질문** | 거래 건수가 직전 6개월보다 크게 줄어든 법인은, 조건이 비슷한 비교 법인보다 이후 6개월 동안 요구불입금액 약화가 더 자주 나타나는가? 그렇다면 이 신호를 상담 우선순위 선정에 어떻게 쓸 수 있는가? |
-| **데이터** | 법인고객 월별 금융거래 데이터 (2023.01~2025.12, 36개월, 법인 × 월). 원본은 반출 제한 자료라 이 레포에 없다 |
+<table>
+  <tr><th width="90">구분</th><th>내용</th></tr>
+  <tr><td align="center" width="90"><b>배경</b></td><td>법인고객은 계좌를 유지한 채 거래 일부를 줄이거나 다른 은행으로 나눌 수 있어, 계좌 해지 여부만으로는 관계 약화를 알기 어렵다</td></tr>
+  <tr><td align="center" width="90"><b>질문</b></td><td>거래 건수가 직전 6개월보다 크게 줄어든 법인은, 조건이 비슷한 비교 법인보다 이후 6개월 동안 요구불입금액 약화가 더 자주 나타나는가? 그렇다면 이 신호를 상담 우선순위 선정에 어떻게 쓸 수 있는가?</td></tr>
+  <tr><td align="center" width="90"><b>데이터</b></td><td>법인고객 월별 금융거래 데이터 (2023.01~2025.12, 36개월, 법인 × 월)</td></tr>
+</table>
 
-> 분석 방법과 결과는 아래 [발표자료](#-발표자료)에서 볼 수 있다.
+> 분석 방법과 결과는 아래 [발표자료](#-발표자료) 참고
 
 ## 🎞 발표자료
 
@@ -44,11 +45,11 @@
 
 <table>
   <tr>
-    <td align="center" width="20%"><a href="https://github.com/2wooyeong2"><img src="https://github.com/2wooyeong2.png?size=160" width="80" alt="강우영"><br><b>강우영</b></a><br><sub>프로젝트 총괄<br>보고서 작성·관리</sub></td>
-    <td align="center" width="20%"><a href="https://github.com/Thunju"><img src="https://github.com/Thunju.png?size=160" width="80" alt="김선주"><br><b>김선주</b></a><br><sub>데이터 시각화<br>발표자료 디자인</sub></td>
-    <td align="center" width="20%"><a href="https://github.com/BigskyYang"><img src="https://github.com/BigskyYang.png?size=160" width="80" alt="양대천"><br><b>양대천</b></a><br><sub>분석 기획<br>위축 지표 설계</sub></td>
-    <td align="center" width="20%"><a href="https://github.com/leetaewoo-98"><img src="https://github.com/leetaewoo-98.png?size=160" width="80" alt="이태우"><br><b>이태우</b></a><br><sub>선행 분석 검토<br>탐색적 데이터 분석</sub></td>
-    <td align="center" width="20%"><a href="https://github.com/hkyuhyun"><img src="https://github.com/hkyuhyun.png?size=160" width="80" alt="황규현"><br><b>황규현</b></a><br><sub>데이터 전처리<br>표본 편향 검증</sub></td>
+    <td align="center" valign="top" width="150"><a href="https://github.com/2wooyeong2"><img src="https://github.com/2wooyeong2.png?size=160" width="88" height="88" alt="강우영"><br><b>강우영</b></a><br><sub>프로젝트 총괄<br>보고서 작성·관리</sub></td>
+    <td align="center" valign="top" width="150"><a href="https://github.com/Thunju"><img src="https://github.com/Thunju.png?size=160" width="88" height="88" alt="김선주"><br><b>김선주</b></a><br><sub>데이터 시각화<br>발표자료 디자인</sub></td>
+    <td align="center" valign="top" width="150"><a href="https://github.com/BigskyYang"><img src="https://github.com/BigskyYang.png?size=160" width="88" height="88" alt="양대천"><br><b>양대천</b></a><br><sub>분석 기획<br>위축 지표 설계</sub></td>
+    <td align="center" valign="top" width="150"><a href="https://github.com/leetaewoo-98"><img src="https://github.com/leetaewoo-98.png?size=160" width="88" height="88" alt="이태우"><br><b>이태우</b></a><br><sub>선행 분석 검토<br>탐색적 데이터 분석</sub></td>
+    <td align="center" valign="top" width="150"><a href="https://github.com/hkyuhyun"><img src="https://github.com/hkyuhyun.png?size=160" width="88" height="88" alt="황규현"><br><b>황규현</b></a><br><sub>데이터 전처리<br>표본 편향 검증</sub></td>
   </tr>
 </table>
 
@@ -62,24 +63,12 @@ oneteam-project/
 ├── wooyeongkang/    강우영 — 총괄·보고서
 ├── seonjukim/       김선주 — 시각화·발표자료
 ├── yangdaecheon/    양대천 — 분석 기획·위축 지표 설계, 거래 건수 기반 분석 코드
-│   └── 건수분석/     재현용 코드·노트북 (아래 '분석 재현' 참고)
+│   └── 건수분석/     재현용 코드·노트북
 ├── leetaewoo/       이태우 — 선행 분석 검토·탐색적 분석
 └── hwangkyuhyun/    황규현 — 전처리·표본 편향 검증
 ```
 
 각 폴더의 자세한 내용은 폴더 안 README를 본다.
-
-## 🔁 분석 재현
-
-거래 건수 기반 분석은 원본 파일 경로만 넣으면 같은 코드·같은 난수 시드로 다시 계산할 수 있다.
-
-```bash
-cd yangdaecheon/건수분석
-pip install -r requirements.txt
-python run_all.py --data "레포 밖의 원본 파일 경로"
-```
-
-자세한 방법과 결과 점검표는 [yangdaecheon/건수분석/README.md](yangdaecheon/건수분석/README.md)에 있다. 원본 없이 코드만 확인하려면 `python tools/smoke_test.py`(합성 데이터)를 실행한다.
 
 ## 📎 팀 규칙
 
