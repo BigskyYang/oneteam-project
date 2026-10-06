@@ -14,9 +14,21 @@
 ![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white)
 ![matplotlib](https://img.shields.io/badge/matplotlib-11557C)
 
-[프로젝트 개요](#-프로젝트-개요) · [발표자료](#-발표자료) · [팀](#-팀) · [폴더 구조](#-폴더-구조) · [팀 규칙](#-팀-규칙)
+[팀](#-팀) · [프로젝트 개요](#-프로젝트-개요) · [발표자료](#-발표자료) · [폴더 구조](#-폴더-구조) · [팀 규칙](#-팀-규칙)
 
 </div>
+
+## 👥 팀
+
+<table>
+  <tr>
+    <td align="center" valign="top" width="150"><a href="https://github.com/2wooyeong2"><img src="https://github.com/2wooyeong2.png?size=160" width="88" height="88" alt="강우영"><br><b>강우영</b></a><br><sub>프로젝트 총괄<br>보고서 작성·관리</sub></td>
+    <td align="center" valign="top" width="150"><a href="https://github.com/Thunju"><img src="https://github.com/Thunju.png?size=160" width="88" height="88" alt="김선주"><br><b>김선주</b></a><br><sub>데이터 시각화<br>발표자료 디자인</sub></td>
+    <td align="center" valign="top" width="150"><a href="https://github.com/BigskyYang"><img src="https://github.com/BigskyYang.png?size=160" width="88" height="88" alt="양대천"><br><b>양대천</b></a><br><sub>분석 기획<br>위축 지표 설계</sub></td>
+    <td align="center" valign="top" width="150"><a href="https://github.com/leetaewoo-98"><img src="https://github.com/leetaewoo-98.png?size=160" width="88" height="88" alt="이태우"><br><b>이태우</b></a><br><sub>선행 분석 검토<br>탐색적 데이터 분석</sub></td>
+    <td align="center" valign="top" width="150"><a href="https://github.com/hkyuhyun"><img src="https://github.com/hkyuhyun.png?size=160" width="88" height="88" alt="황규현"><br><b>황규현</b></a><br><sub>데이터 전처리<br>표본 편향 검증</sub></td>
+  </tr>
+</table>
 
 ## 📌 프로젝트 개요
 
@@ -43,18 +55,6 @@
   <img src="final/presentation/slide_07.png" width="800" alt="발표자료 7"><br><br>
   <img src="final/presentation/slide_08.png" width="800" alt="발표자료 8"><br><br>
 </p>
-
-## 👥 팀
-
-<table>
-  <tr>
-    <td align="center" valign="top" width="150"><a href="https://github.com/2wooyeong2"><img src="https://github.com/2wooyeong2.png?size=160" width="88" height="88" alt="강우영"><br><b>강우영</b></a><br><sub>프로젝트 총괄<br>보고서 작성·관리</sub></td>
-    <td align="center" valign="top" width="150"><a href="https://github.com/Thunju"><img src="https://github.com/Thunju.png?size=160" width="88" height="88" alt="김선주"><br><b>김선주</b></a><br><sub>데이터 시각화<br>발표자료 디자인</sub></td>
-    <td align="center" valign="top" width="150"><a href="https://github.com/BigskyYang"><img src="https://github.com/BigskyYang.png?size=160" width="88" height="88" alt="양대천"><br><b>양대천</b></a><br><sub>분석 기획<br>위축 지표 설계</sub></td>
-    <td align="center" valign="top" width="150"><a href="https://github.com/leetaewoo-98"><img src="https://github.com/leetaewoo-98.png?size=160" width="88" height="88" alt="이태우"><br><b>이태우</b></a><br><sub>선행 분석 검토<br>탐색적 데이터 분석</sub></td>
-    <td align="center" valign="top" width="150"><a href="https://github.com/hkyuhyun"><img src="https://github.com/hkyuhyun.png?size=160" width="88" height="88" alt="황규현"><br><b>황규현</b></a><br><sub>데이터 전처리<br>표본 편향 검증</sub></td>
-  </tr>
-</table>
 
 ## 🗂 폴더 구조
 
