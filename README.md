@@ -31,17 +31,17 @@
 
 ## 🎞 발표자료
 
-<!-- 발표자료 교체 방법: 슬라이드를 PNG(가로 1600px 정도)로 내보내 docs/presentation/ 에 slide_01.png, slide_02.png … 로 덮어쓰고, 장 수가 바뀌면 아래 img 줄을 늘리거나 줄인다. -->
+<!-- 발표자료 교체 방법: 슬라이드를 PNG(가로 1600px 정도)로 내보내 final/presentation/ 에 slide_01.png, slide_02.png … 로 덮어쓰고, 장 수가 바뀌면 아래 img 줄을 늘리거나 줄인다. -->
 
 <p align="center">
-  <img src="docs/presentation/slide_01.png" width="800" alt="발표자료 1"><br><br>
-  <img src="docs/presentation/slide_02.png" width="800" alt="발표자료 2"><br><br>
-  <img src="docs/presentation/slide_03.png" width="800" alt="발표자료 3"><br><br>
-  <img src="docs/presentation/slide_04.png" width="800" alt="발표자료 4"><br><br>
-  <img src="docs/presentation/slide_05.png" width="800" alt="발표자료 5"><br><br>
-  <img src="docs/presentation/slide_06.png" width="800" alt="발표자료 6"><br><br>
-  <img src="docs/presentation/slide_07.png" width="800" alt="발표자료 7"><br><br>
-  <img src="docs/presentation/slide_08.png" width="800" alt="발표자료 8"><br><br>
+  <img src="final/presentation/slide_01.png" width="800" alt="발표자료 1"><br><br>
+  <img src="final/presentation/slide_02.png" width="800" alt="발표자료 2"><br><br>
+  <img src="final/presentation/slide_03.png" width="800" alt="발표자료 3"><br><br>
+  <img src="final/presentation/slide_04.png" width="800" alt="발표자료 4"><br><br>
+  <img src="final/presentation/slide_05.png" width="800" alt="발표자료 5"><br><br>
+  <img src="final/presentation/slide_06.png" width="800" alt="발표자료 6"><br><br>
+  <img src="final/presentation/slide_07.png" width="800" alt="발표자료 7"><br><br>
+  <img src="final/presentation/slide_08.png" width="800" alt="발표자료 8"><br><br>
 </p>
 
 ## 👥 팀
@@ -61,14 +61,16 @@
 ```
 oneteam-project/
 ├── README.md
-├── docs/            팀 기획서 등 공동 문서
-├── daily_report/    일일 진행일지
-├── wooyeongkang/    강우영 — 총괄·보고서
-├── seonjukim/       김선주 — 시각화·발표자료
-├── yangdaecheon/    양대천 — 분석 기획·위축 지표 설계, 거래 건수 기반 분석 코드
-│   └── 건수분석/     재현용 코드·노트북
-├── leetaewoo/       이태우 — 선행 분석 검토·탐색적 분석
-└── hwangkyuhyun/    황규현 — 전처리·표본 편향 검증
+├── final/              최종 자료
+│   └── presentation/   발표자료 슬라이드 이미지
+├── analysis/           최종 분석 코드·노트북 (거래 건수 기반, 재현 방법은 analysis/README.md)
+├── docs/               기획서, 일일 진행일지(daily_report/)
+└── members/            팀원별 중간 자료·작업물
+    ├── wooyeongkang/   강우영 — 총괄·보고서
+    ├── seonjukim/      김선주 — 시각화·발표자료
+    ├── yangdaecheon/   양대천 — 분석 기획·위축 지표 설계 (요구불입금 기반 이전 단계 기록)
+    ├── leetaewoo/      이태우 — 선행 분석 검토·탐색적 분석
+    └── hwangkyuhyun/   황규현 — 전처리·표본 편향 검증
 ```
 
 각 폴더의 자세한 내용은 폴더 안 README를 본다.

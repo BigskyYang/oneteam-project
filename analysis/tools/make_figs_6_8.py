@@ -19,7 +19,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(__file__).resolve().parents[2]  # <root>/analysis/tools/make_figs_6_8.py
 WORK = Path(os.environ.get("CNT_WORK_DIR") or ROOT / "data" / "work_cnt")
 SOURCE = WORK / "output"
 DEST = SOURCE / "fig_6_8"

@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-REPO_ROOT = Path(__file__).resolve().parents[3]  # <root>/yangdaecheon/건수분석/code/cntlib.py
+REPO_ROOT = Path(__file__).resolve().parents[2]  # <root>/analysis/code/cntlib.py
 
 KEY_ID, KEY_YM = "법인ID", "기준년월"
 ATTR_COLS = ["업종_대분류", "사업장_시도", "법인_고객등급", "전담고객여부"]
