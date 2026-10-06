@@ -4,6 +4,7 @@
 - strip_outputs.py: 임시 git 저장소에서 --check · 직접 정리 · --stage(작업 파일은 그대로, 인덱스에만 깨끗한 내용) 동작 확인
 """
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -21,6 +22,8 @@ def check(name, cond):
 
 
 def run(args, cwd=None, env=None):
+    # 자식 프로세스도 UTF-8 로 출력하게 한다 (한국어 Windows 기본 cp949 로 나오면 안내 문구 비교가 틀어짐)
+    env = {**(env if env is not None else os.environ), "PYTHONUTF8": "1"}
     return subprocess.run([sys.executable, *args], cwd=str(cwd or ROOT), capture_output=True, text=True, encoding="utf-8", errors="replace", env=env)
 
 
